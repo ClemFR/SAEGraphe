@@ -18,11 +18,15 @@ public class TestDuree {
         }
 
         Duree d5 = new Duree(4, 48);
+        Duree d6 = new Duree(89, 31, 3, 25);
+        Duree d7 = new Duree(4, 48, 30, 10);
 
         System.out.println("d1 = " + d1);
         System.out.println("d2 = " + d2);
         System.out.println("d3 = " + d3);
         System.out.println("d5 = " + d5);
+        System.out.println("d6 = " + d6);
+        System.out.println("d7 = " + d7);
     }
 
 
