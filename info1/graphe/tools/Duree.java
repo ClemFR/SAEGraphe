@@ -129,13 +129,14 @@ public class Duree {
      */
     public int[] getDureeTableau() {
         int[] tableau = new int[4];
-        tableau[0] = (int) Math.floor((double) duree / (30 * 24));
-        tableau[1] = (int) Math.floor((double)
-                (duree - (tableau[0] * 30 * 24)) / (7 * 24));
-        tableau[2] = (int) Math.floor((double)
-                (duree - (tableau[0] * 30 * 24) - (tableau[1] * 7 * 24)) / 24);
-        tableau[3] = duree - (tableau[0] * 30 * 24) -
-                (tableau[1] * 7 * 24) - (tableau[2] * 24);
+        int dureeRestante = duree;
+        tableau[0] = (int) Math.floor((double) dureeRestante / (30 * 24));
+        dureeRestante -= tableau[0] * 30 * 24;
+        tableau[1] = (int) Math.floor((double) dureeRestante / (7 * 24));
+        dureeRestante -= tableau[1] * 7 * 24;
+        tableau[2] = (int) Math.floor((double) dureeRestante / 24);
+        dureeRestante -= tableau[2] * 24;
+        tableau[3] = dureeRestante;
 
         // Résoudre un petit problème de conversion,
         // il peut arriver que le programme retourne un tableau avec
