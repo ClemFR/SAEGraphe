@@ -16,13 +16,13 @@ public class TestDuree {
 	 * TESTER LE CONSTRUCTEUR DE LA CLASSE DUREE:  */
 	protected static double[][] setOfUniteOfTime = {
 			
-			/*   Mois   |  Semaines  |   Jours   |      Heures  */
+			/*   Mois   |  Semaines  |   Jours   |  Heures  */
 			{        -10,           0,          0,          0},
 			{          0,         -10,          0,          0},
 			{          0,           0,        -10,          0},
 			{          0,           0,          0,        -10},
 			{          0,           0,          0,          0}, // Une duree ne devrait idealement pas pouvoir etre nulle
-			{  MAX_VALUE,   MAX_VALUE,  MAX_VALUE,  MAX_VALUE} // On devrait peut être interdire des valeurs trop grande
+			{  MAX_VALUE,   MAX_VALUE,  MAX_VALUE,  MAX_VALUE} // On devrait peut être interdire des valeurs trop grande ( pas fait)
 			
 	};
 	
@@ -48,19 +48,18 @@ public class TestDuree {
 			new Duree( 10,5,5,12)
 	};
 	protected static String[] resultWaitingForToString = {
+			/* Dans le cas où : 24h -> 1j | 7j -> 1s | 4s -> 1m (ou 28j -> 1m)*/
 			"3 jours, 8 heures",
 			"2 mois, 3 semaines, 3 jours, 23 heures",
 			"10 mois, 1 semaines, 1 jours, 23 heures",
-			"10 mois, 5 semaines, 5 jours, 12 heures"
+			"11 mois, 1 semaines, 5 jours, 12 heures"
 			
 	};
 	protected static boolean testToString() {
 		boolean testOk = true;
 		
 		for (int i = 0; i < setOfValidDuree.length; i++) {
-			System.out.println(setOfValidDuree[i]);
-			System.out.println(resultWaitingForToString[i]);
-			testOk &= resultWaitingForToString[i].equals(setOfUniteOfTime[i].toString());
+			testOk &= resultWaitingForToString[i].equals(setOfValidDuree[i].toString());
 		}
 		return testOk;
 	}
@@ -85,9 +84,9 @@ public class TestDuree {
     public static void main(String[] args) {
     	
     	boolean testsOk = true;
-    	
     	testsOk &= testGetDuree();
-    	
+    	testsOk &= testToString();
+    	testsOk &= testConstructor(); // les tests echoues a cause de celui la
     	if (testsOk) {
     		System.out.println("Les tests unitaires ont reussie");
     	} else {

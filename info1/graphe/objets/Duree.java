@@ -134,11 +134,15 @@ public class Duree {
      * @return un tableau de 4 entiers.
      */
     public int[] getDureeTableau() {
+    	int dureeBis = duree;
         int[] tableau = new int[4];
-        tableau[0] = (int) Math.floor((double) duree / (30 * 24));
-        tableau[1] = (int) Math.floor((double) (duree - (tableau[0] * 30 * 24)) / (7 * 24));
-        tableau[2] = (int) Math.floor((double) (duree - (tableau[0] * 30 * 24) - (tableau[1] * 7 * 24)) / 24);
-        tableau[3] = duree - (tableau[0] * 30 * 24) - (tableau[1] * 7 * 24) - (tableau[2] * 24);
+        tableau[3] = dureeBis % 24;
+        dureeBis /= 24;
+        tableau[2] = dureeBis % 7;
+        dureeBis /= 7;
+        tableau[1] = dureeBis % 4;
+        dureeBis /= 4;
+        tableau[0] = dureeBis;
         return tableau;
     }
 
