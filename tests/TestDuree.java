@@ -1,12 +1,13 @@
 /* TestDuree.java                                                     17/04/2022
  *
  */
-package info1.graphe.tests;
+package tests;
 
 import static java.lang.Double.MAX_VALUE;
-import static info1.graphe.outils.Outillage.AssurerEgaliteDouble;
+import static outils.Outillage.AssurerEgaliteDouble;
+import static tests.Tests.setOfValidDuree;
 
-import info1.graphe.objets.Duree;
+import objets.Duree;
 /**
  * Teste la classe Duree.
  */
@@ -41,12 +42,7 @@ public class TestDuree {
 		
 		return testOk;
 	}
-	protected static Duree[] setOfValidDuree = {
-			new Duree(       80),
-			new Duree(    80,23),
-			new Duree(  40,8,23),
-			new Duree( 10,5,5,12)
-	};
+	
 	protected static String[] resultWaitingForToString = {
 			/* Dans le cas où : 24h -> 1j | 7j -> 1s | 4s -> 1m (ou 28j -> 1m)*/
 			"3 jours, 8 heures",
@@ -81,18 +77,7 @@ public class TestDuree {
 		
 		return testOk;
 	}
-    public static void main(String[] args) {
-    	
-    	boolean testsOk = true;
-    	testsOk &= testGetDuree();
-    	testsOk &= testToString();
-    	testsOk &= testConstructor(); // les tests echoues a cause de celui la
-    	if (testsOk) {
-    		System.out.println("Les tests unitaires ont reussie");
-    	} else {
-    		System.out.println("Les tests unitaires ont echoues");
-    	}
-    }
+    
 
 
 }

@@ -2,7 +2,7 @@
  * Diego Iglesias, pas de droits d'auteur
  */
 
-package info1.graphe.objets;
+package objets;
 
 /**
  * Gestion de dureees.
