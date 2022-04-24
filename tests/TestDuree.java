@@ -43,7 +43,7 @@ public class TestDuree {
 		return testOk;
 	}
 	
-	protected static String[] resultWaitingForToString = {
+	protected static String[] expectedResultForToString = {
 			/* Dans le cas où : 24h -> 1j | 7j -> 1s | 4s -> 1m (ou 28j -> 1m)*/
 			"3 jours, 8 heures",
 			"2 mois, 3 semaines, 3 jours, 23 heures",
@@ -54,12 +54,12 @@ public class TestDuree {
 	protected static boolean testToString() {
 		boolean testOk = true;
 		
-		for (int i = 0; i < setOfValidDuree.length; i++) {
-			testOk &= resultWaitingForToString[i].equals(setOfValidDuree[i].toString());
+		for (int i = 0; i < expectedResultForToString.length; i++) {
+			testOk &= expectedResultForToString[i].equals(setOfValidDuree[i].toString());
 		}
 		return testOk;
 	}
-	protected static double[][] resultWaitedForGetDuree = {
+	protected static double[][] expectedResultForGetDuree = {
 			{80,3.33333,0.47619,0.11904},
 			{1943,80.95833,11.56547,2.89136},
 			{6935,288.95833,41.27976,10.31994},
@@ -68,11 +68,11 @@ public class TestDuree {
 	protected static boolean testGetDuree() {
 		double precision = 1e-5;
 		boolean testOk = true;
-		for (int i = 0; i < setOfValidDuree.length; i++) {
-			testOk &= AssurerEgaliteDouble(setOfValidDuree[i].getDuree('h'), resultWaitedForGetDuree[i][0], precision);
-			testOk &= AssurerEgaliteDouble(setOfValidDuree[i].getDuree('j'), resultWaitedForGetDuree[i][1], precision);
-			testOk &= AssurerEgaliteDouble(setOfValidDuree[i].getDuree('s'), resultWaitedForGetDuree[i][2], precision);
-			testOk &= AssurerEgaliteDouble(setOfValidDuree[i].getDuree('m'), resultWaitedForGetDuree[i][3], precision);
+		for (int i = 0; i < expectedResultForGetDuree.length; i++) {
+			testOk &= AssurerEgaliteDouble(setOfValidDuree[i].getDuree('h'), expectedResultForGetDuree[i][0], precision);
+			testOk &= AssurerEgaliteDouble(setOfValidDuree[i].getDuree('j'), expectedResultForGetDuree[i][1], precision);
+			testOk &= AssurerEgaliteDouble(setOfValidDuree[i].getDuree('s'), expectedResultForGetDuree[i][2], precision);
+			testOk &= AssurerEgaliteDouble(setOfValidDuree[i].getDuree('m'), expectedResultForGetDuree[i][3], precision);
 		}
 		
 		return testOk;

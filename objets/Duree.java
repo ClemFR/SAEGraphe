@@ -27,20 +27,20 @@ package objets;
  * La duree peut etre affichee en heures, jour, semaine, mois, annee.
  */
 public class Duree {
-    private int duree;
+    private int hours;
 
     /**
      * Constructeur d'une duree a  partir d'un nombre d'heures.
      * @param heures nombre d'heures qu'on souhaite utiliser pour la duree.
      */
-    public Duree(int heures) {
-        if(heures < 0) {
+    public Duree(int hours) {
+        if(hours < 0) {
             throw new IllegalArgumentException("Le nombre d'heures ne peut pas etre negatif.");
         }
-        duree = heures;
-        if (duree == 0) {
+        if (hours == 0) {
         	throw new IllegalArgumentException("La duree ne peut pas être nulle");
         }
+        this.hours = hours;
     }
 
     /**
@@ -48,13 +48,13 @@ public class Duree {
      * @param jours nombre de jours qu'on souhaite utiliser pour la duree.
      * @param heures nombre d'heures qu'on souhaite utiliser pour la duree.
      */
-    public Duree(double jours, int heures) {
-        if(jours < 0 || heures < 0) {
+    public Duree(double jours, int hours) {
+        if(jours < 0 || hours < 0) {
             throw new IllegalArgumentException("Le nombre de jours" +
                     " et d'heures ne peuvent pas etre negatifs.");
         }
-        duree = (int) Math.round(jours * 24) + heures;
-        if (duree == 0) {
+        this.hours = (int) Math.round(jours * 24) + hours;
+        if (this.hours == 0) {
         	throw new IllegalArgumentException("La duree ne peut pas être nulle");
         }
     }
@@ -66,14 +66,14 @@ public class Duree {
      * @param jours nombre de jours qu'on souhaite utiliser pour la duree.
      * @param heures nombre d'heures qu'on souhaite utiliser pour la duree.
      */
-    public Duree(double semaines, double jours, int heures) {
-        if(semaines < 0 || jours < 0 || heures < 0) {
+    public Duree(double semaines, double jours, int hours) {
+        if(semaines < 0 || jours < 0 || hours < 0) {
             throw new IllegalArgumentException("Le nombre de semaines," +
                     " de jours et d'heures ne peuvent pas etre negatifs.");
         }
-        duree = (int) Math.round(semaines * 7 * 24)
-                + (int) Math.round(jours * 24) + heures;
-        if (duree == 0) {
+        this.hours = (int) Math.round(semaines * 7 * 24)
+                     + (int) Math.round(jours * 24) + hours;
+        if (this.hours == 0) {
         	throw new IllegalArgumentException("La duree ne peut pas être nulle");
         }
     }
@@ -86,27 +86,21 @@ public class Duree {
      * @param jours nombre de jours qu'on souhaite utiliser pour la duree.
      * @param heures nombre d'heures qu'on souhaite utiliser pour la duree.
      */
-    public Duree(double mois, double semaines, double jours, int heures) {
-        if(mois < 0 || semaines < 0 || jours < 0 || heures < 0) {
+    public Duree(double mois, double semaines, double jours, int hours) {
+        if(mois < 0 || semaines < 0 || jours < 0 || hours < 0) {
             throw new IllegalArgumentException("Le nombre de mois, " +
                     "de semaines, de jours et d'heures ne peuvent pas etre" +
                     " negatifs.");
         }
-        duree = (int) Math.round(mois * 4 * 7 * 24)
-                + (int) Math.round(semaines * 7 * 24)
-                + (int) Math.round(jours * 24) + heures;
-        if (duree == 0) {
+        this.hours = (int) Math.round(mois * 4 * 7 * 24)
+                     + (int) Math.round(semaines * 7 * 24)
+                     + (int) Math.round(jours * 24) + hours;
+        if (this.hours == 0) {
         	throw new IllegalArgumentException("La duree ne peut pas être nulle");
         }
     }
 
-    /**
-     * Getter de la duree.
-     * @return la duree en heures.
-     */
-    public int getDuree() {
-        return duree;
-    }
+    
 
     /**
      * Getter de la duree selon l'unite souhaitee
@@ -116,10 +110,10 @@ public class Duree {
      */
     public double getDuree(char unite) {
         return switch (unite) {
-            case 'm' -> (double) duree / (30 * 24);
-            case 's' -> (double) duree / (7 * 24);
-            case 'j' -> (double) duree / 24;
-            case 'h' -> (double) duree;
+            case 'm' -> (double) hours / (30 * 24);
+            case 's' -> (double) hours / (7 * 24);
+            case 'j' -> (double) hours / 24;
+            case 'h' -> (double) hours;
             default -> throw new IllegalArgumentException("L'unite " +
                     "n'est pas reconnue.");
         };
@@ -134,7 +128,7 @@ public class Duree {
      * @return un tableau de 4 entiers.
      */
     public int[] getDureeTableau() {
-    	int dureeBis = duree;
+    	int dureeBis = hours;
         int[] tableau = new int[4];
         tableau[3] = dureeBis % 24;
         dureeBis /= 24;
@@ -167,6 +161,19 @@ public class Duree {
             dureeString += tableau[3] + " heures";
         }
         return dureeString;
+    }
+    /**
+     * Getter de la duree.
+     * @return la duree en heures.
+     */
+    public int getHours() {
+        return hours;
+    }
+    public void addDuree(int toAdd) {
+    	this.hours += toAdd;
+    }
+    public void setHours(int toAdd) {
+    	this.hours = toAdd;
     }
 
 }
