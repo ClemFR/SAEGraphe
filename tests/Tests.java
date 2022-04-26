@@ -20,16 +20,18 @@ public class Tests {
 			new Tache("Test","Faire les jeux de tests pour MR Barrios",setOfValidDuree[1]),
 			new Tache("Algo","Faire une partie de l'algo",setOfValidDuree[2]),
 			new Tache("Pause","Faire une pause pour pas peter un plomb",setOfValidDuree[3]),
-			new Tache("FinirAlgo","Finir l'algo",setOfValidDuree[4])
+			new Tache("FinirAlgo","Finir l'algo",setOfValidDuree[4]),
+			
 	};
 	public static void main(String[] args) {
+		InitBd();
 		InitPriorities();
     	boolean testsOk = true;
     	testsOk &= testGetDuree();
     	testsOk &= testToString();
     	testsOk &= testFindEarliestDate();
     	testsOk &= testVerifierCondition();
-    	testProjet();
+    	testsOk &= testGetTasksByPreviousTasks();
     	//testsOk &= testConstructor(); // les tests echoues a cause de celui la
     	if (testsOk) {
     		System.out.println("Les tests unitaires ont reussie");

@@ -37,9 +37,7 @@ public class Duree {
         if(hours < 0) {
             throw new IllegalArgumentException("Le nombre d'heures ne peut pas etre negatif.");
         }
-        if (hours == 0) {
-        	throw new IllegalArgumentException("La duree ne peut pas être nulle");
-        }
+        
         this.hours = hours;
     }
 
@@ -54,9 +52,6 @@ public class Duree {
                     " et d'heures ne peuvent pas etre negatifs.");
         }
         this.hours = (int) Math.round(jours * 24) + hours;
-        if (this.hours == 0) {
-        	throw new IllegalArgumentException("La duree ne peut pas être nulle");
-        }
     }
 
     /**
@@ -73,9 +68,6 @@ public class Duree {
         }
         this.hours = (int) Math.round(semaines * 7 * 24)
                      + (int) Math.round(jours * 24) + hours;
-        if (this.hours == 0) {
-        	throw new IllegalArgumentException("La duree ne peut pas être nulle");
-        }
     }
 
     /**
@@ -95,9 +87,6 @@ public class Duree {
         this.hours = (int) Math.round(mois * 4 * 7 * 24)
                      + (int) Math.round(semaines * 7 * 24)
                      + (int) Math.round(jours * 24) + hours;
-        if (this.hours == 0) {
-        	throw new IllegalArgumentException("La duree ne peut pas être nulle");
-        }
     }
 
     

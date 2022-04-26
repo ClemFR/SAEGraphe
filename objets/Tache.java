@@ -2,7 +2,7 @@ package objets;
 import java.util.ArrayList;
 public class Tache {
 	private ArrayList<Tache> conditions = new ArrayList<Tache>();
-	private Duree taskDuration;
+	public Duree taskDuration;
 	private String nom;
 	private String description;
 	private Duree earliestDate;
@@ -14,37 +14,42 @@ public class Tache {
 		this.description = description;
 	}
 	
-	
+	/**
+	 * Calcule la date au plus tot de cette tache par rapport aux taches prealable
+	 */
 	public void FindEarliestDate() {
 		Tache toCompare;
 		boolean isShorter;
 		int longerDuration;
-		
-		if (earliestDate == null)
-			earliestDate = new Duree(taskDuration.getHours());
+		if (earliestDate == null )
+			earliestDate = new Duree(0);
 		
 		for (int i = 0; i < conditions.size(); i++) {
 			toCompare = conditions.get(i);
-			longerDuration =  toCompare.earliestDate.getHours() + taskDuration.getHours();
+			if (toCompare.earliestDate == null ) toCompare.setEarliestDate(new Duree(0));
+			longerDuration =  toCompare.earliestDate.getHours() + toCompare.taskDuration.getHours();
 			isShorter = earliestDate.getHours() < longerDuration;
 			
 			if (isShorter) earliestDate.setHours(longerDuration);
 		}
 		
 	}
-	public boolean hasTheseConditions(ArrayList<Tache> expectedConditions) {
-		boolean hasCondition = !this.getConditions().isEmpty();
-		if (expectedConditions != null) {
+	/**
+	 * @param filtered un filtre de tache
+	 * @return true si l'enssemble de tache prealable est comprit dans le filtre
+	 *         ou si le filtre et l'enssemble de tache prealable sont vide
+	 *         sinon false
+	 */
+	public boolean hasTheseConditions(ArrayList<Tache> filtered) {
+		boolean emptyFiltered = (filtered == null || filtered.isEmpty()) && this.getConditions().isEmpty();
+		boolean arePrerequisiteTaskInclued = false;
+		if (!emptyFiltered && !this.getConditions().isEmpty()) {
+			arePrerequisiteTaskInclued = true;
 			for (int i = 0; i < this.getConditions().size(); i++) {
-				hasCondition &= expectedConditions.contains(this.getConditions().get(i));
+				arePrerequisiteTaskInclued &= filtered.contains(this.getConditions().get(i));
 			} 
-		}
-		if (this.getConditions().isEmpty()) {
-			hasCondition |= expectedConditions == null || expectedConditions.isEmpty();
-		}
-				        
-		return hasCondition;
-		
+		}		        
+		return arePrerequisiteTaskInclued || emptyFiltered;
 	}
 	@Override
 	public String toString() {
@@ -66,7 +71,9 @@ public class Tache {
 	public String getNom() {
 		return this.nom;
 	}
-	
+	public void setEarliestDate(Duree earliestDate) {
+		this.earliestDate = earliestDate;
+	}
 	public Duree getEarliestDate () {
 		return this.earliestDate;
 	}
