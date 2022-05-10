@@ -149,6 +149,9 @@ public class Duree {
         if(tableau[3] != 0) {
             dureeString += tableau[3] + " heures";
         }
+        if (dureeString.equals("")) {
+        	dureeString += "0 jours";
+        }
         return dureeString;
     }
     /**

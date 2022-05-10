@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class TestProjet {
 	protected static Projet testProjet() {
 		Projet projet = new Projet("Test","test des projets");
-		for (int i = 0; i < setOfValidTask.length; i++) {
+		for (int i = setOfValidTask.length - 1; i >= 0; i--) {
 			projet.addTask(setOfValidTask[i]);
 		}
 		return projet;
@@ -42,5 +42,10 @@ public class TestProjet {
 			
 		}
 		return testOk;
+	}
+	protected static void testOrderTasks() {
+		Projet projet = testProjet();
+		projet.calculDate();
+		System.out.println(projet.printAll());
 	}
 }

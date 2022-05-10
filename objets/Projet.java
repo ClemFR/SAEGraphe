@@ -6,17 +6,32 @@ public class Projet {
 	private String nom;
 	private String description;
 	private ArrayList<Tache> allTasks = new ArrayList<Tache>();
-	
+	private Tache FinDeProjet = new Tache("Fin","Fin de projet",new Duree(0));
 	public Projet(String nom , String descriptif) {
 		this.nom = nom;
 		this.description = descriptif;
+	}
+	public void calculDate() {
+		if (allTasks.contains(FinDeProjet)) allTasks.remove(FinDeProjet);
+		allTasks = orderTasks();
+		for (int i = 0; i < allTasks.size(); i++) {
+			allTasks.get(i).FindEarliestDate();
+		}
+		FinDeProjet.FindEarliestDate();
+		FinDeProjet.setLastestDate(FinDeProjet.getEarliestDate());
+		allTasks.add(FinDeProjet);
+		for (int i = allTasks.size() - 1; i >= 0; i--) {
+			allTasks.get(i).FindLastestDate();
+			allTasks.get(i).FindMargeTotale();
+			allTasks.get(i).FindMargeLibre();
+		}
 	}
 	/**
 	 * Calcule les dates au plus tot de toute les taches d'un projet
 	 * // TODO Permettre de calculer les date au plus tard
 	 * // TODO Calculer la date de fin de projet
 	 */
-	public void datesCalculation() {
+	public ArrayList<Tache> orderTasks() {
 		ArrayList<Tache> emptySet = new ArrayList<Tache>();
 		ArrayList<Tache> setOfDateIndependentEachOther 
 		                 = getTasksByPreviousTasks(emptySet);
@@ -27,11 +42,19 @@ public class Projet {
 					 calculableDate < setOfDateIndependentEachOther.size(); 
 					 calculableDate++) {
 				
-				setOfDateIndependentEachOther.get(calculableDate).FindEarliestDate();
+				emptySet.add(setOfDateIndependentEachOther.get(calculableDate));
+			}
+			if (getTasksByPreviousTasks(setOfDateIndependentEachOther).size() == 0) {
+				for (int lastTasks = 0; lastTasks < setOfDateIndependentEachOther.size(); lastTasks++) {
+					FinDeProjet.addPreliminaryTask(setOfDateIndependentEachOther.get(lastTasks));
+				}
 			}
 			setOfDateIndependentEachOther 
 			= getTasksByPreviousTasks(setOfDateIndependentEachOther);
+			
 		}
+		
+		return emptySet;
 	}
 	/**
 	 * @param filtered un enssemble de tache servant de filtre
@@ -47,6 +70,7 @@ public class Projet {
 				tasksFound.add(allTasks.get(taskToTest));
 			}
 		}
+		
 		return tasksFound; 
 	}
 	@Override
@@ -70,6 +94,12 @@ public class Projet {
 			message.append("\n\n" + allTasks.get(task));
 		}
 		return message.toString();
+	}
+	public Tache getTask(int index) {
+		return allTasks.get(index);
+	}
+	public int size() {
+		return allTasks.size();
 	}
 	public void addTask(Tache toAdd) {
 		this.allTasks.add(toAdd);

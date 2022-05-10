@@ -5,8 +5,10 @@ public class Tache {
 	public Duree taskDuration;
 	private String nom;
 	private String description;
-	private Duree earliestDate;
-	private Duree auPlusTard;
+	private Duree earliestDate = new Duree(0);
+	private Duree auPlusTard = new Duree(0);
+	private Duree margeLibre = new Duree(0);
+	private Duree margeTotale = new Duree(0);
 
 	public Tache(String nom , String description, Duree deLaTache) {
 		this.taskDuration = deLaTache;
@@ -14,6 +16,35 @@ public class Tache {
 		this.description = description;
 	}
 	
+	public void FindMargeLibre() {
+		int totale;
+		Tache toCompare;
+		for (int i = 0; i < conditions.size(); i++) {
+			toCompare = conditions.get(i);
+			totale = earliestDate.getHours() - toCompare.earliestDate.getHours() - toCompare.taskDuration.getHours();
+			toCompare.margeLibre.setHours(totale);
+		}
+	}
+	public void FindMargeTotale() {
+		int totale;
+		Tache toCompare;
+		for (int i = 0; i < conditions.size(); i++) {
+			toCompare = conditions.get(i);
+			totale = auPlusTard.getHours() - toCompare.earliestDate.getHours() - toCompare.taskDuration.getHours();
+			toCompare.margeTotale.setHours(totale);
+		}
+	}
+	public void FindLastestDate() {
+		Tache toCompare;
+		int longerDuration;
+		
+		for (int i = 0; i < conditions.size(); i++) {
+			toCompare = conditions.get(i);
+			longerDuration = auPlusTard.getHours() - toCompare.taskDuration.getHours();
+			toCompare.auPlusTard.setHours(longerDuration);
+			
+		}
+	}
 	/**
 	 * Calcule la date au plus tot de cette tache par rapport aux taches prealable
 	 */
@@ -21,12 +52,9 @@ public class Tache {
 		Tache toCompare;
 		boolean isShorter;
 		int longerDuration;
-		if (earliestDate == null )
-			earliestDate = new Duree(0);
 		
 		for (int i = 0; i < conditions.size(); i++) {
 			toCompare = conditions.get(i);
-			if (toCompare.earliestDate == null ) toCompare.setEarliestDate(new Duree(0));
 			longerDuration =  toCompare.earliestDate.getHours() + toCompare.taskDuration.getHours();
 			isShorter = earliestDate.getHours() < longerDuration;
 			
@@ -55,14 +83,23 @@ public class Tache {
 	public String toString() {
 		StringBuilder message = new StringBuilder();
 
-		message.append(this.nom + " :\ntemp restant : " + this.taskDuration + "\n"
+		message.append(this.nom + " :\nDuree : " + this.taskDuration + "\n"
 					   + "Date au plus tot : " + this.earliestDate + "\n"
+					   + "Date au plus tard : " + this.auPlusTard + "\n"
+					   + "Marge Libre : " + margeLibre + "\n"
+					   + "Marge Totale : " + margeTotale + "\n"
 			           + this.description + "\nTache Prealable :");
-		
+					   
 		for (int nbTask = 0; nbTask < this.conditions.size(); nbTask++) {
 			message.append("\n - " + this.conditions.get(nbTask).getNom());
 		}
 		return message.toString();
+	}
+	public void setMargeTotale(Duree margeTotale) {
+		this.margeTotale = margeTotale;
+	}
+	public void setLastestDate(Duree auPlusTard) {
+		this.auPlusTard = auPlusTard;
 	}
 	public void addPreliminaryTask(Tache prealable) {
 		this.conditions.add(prealable);
