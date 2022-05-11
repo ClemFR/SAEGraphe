@@ -2,7 +2,7 @@
  * Diego Iglesias, pas de droits d'auteur
  */
 
-package info1.graphe.objets;
+package objets;
 
 /**
  * Gestion de dureees.
@@ -26,7 +26,9 @@ package info1.graphe.objets;
  * La duree peut etre affichee en heures, jour, semaine.
  */
 public class Duree {
+
     private int heures;
+
 
     /**
      * Constructeur d'une duree a  partir d'un nombre d'heures.
@@ -38,6 +40,9 @@ public class Duree {
         }
 
         this.heures = heures;
+
+        
+
     }
 
     /**
@@ -50,7 +55,9 @@ public class Duree {
             throw new IllegalArgumentException("Le nombre de jours" +
                     " et d'heures ne peuvent pas etre negatifs.");
         }
+
         this.heures = (int) Math.round(jours * 24) + heures;
+
     }
 
     /**
@@ -65,9 +72,11 @@ public class Duree {
             throw new IllegalArgumentException("Le nombre de semaines," +
                     " de jours et d'heures ne peuvent pas etre negatifs.");
         }
+
         this.heures = (int) Math.round(semaines * 7 * 24)
                 + (int) Math.round(jours * 24) + heures;
     }
+
 
     /**
      * Getter de la duree selon l'unite souhaitee
@@ -77,9 +86,12 @@ public class Duree {
      */
     public double getDuree(char unite) {
         return switch (unite) {
+
             case 's' -> (double) heures / (7 * 24);
             case 'j' -> (double) heures / 24;
             case 'h' -> (double) heures;
+
+
             default -> throw new IllegalArgumentException("L'unite " +
                     "n'est pas reconnue.");
         };
@@ -90,7 +102,7 @@ public class Duree {
      * L'indice 0 correspond au nombre de semaines, l'indice 1 au nombre de jours
      * et l'indice 2 au nombre d'heures.
      * Exemple : si la duree est de 2 heures,
-     *           le tableau renvoye sera [0, 0, 0, 2].
+     *           le tableau renvoye sera [ 0, 0, 2].
      * Exemple 2 : si la duree est de 342 heures,
      *             le tableau renvoye sera [2, 0, 6].
      * @return un tableau de 3 entiers.
@@ -102,8 +114,9 @@ public class Duree {
         dureeRestante /= 24;
         tableau[1] = dureeRestante % 7;
         dureeRestante /= 7;
-        tableau[0] = dureeRestante % 4;
-        return tableau;
+        tableau[0] = dureeRestante;
+		return tableau;
+
     }
 
     /**
@@ -114,14 +127,17 @@ public class Duree {
     public String toString() {
         int[] tableau = getDureeTableau();
         String dureeString = "";
+        if(tableau[0] != 0) {
+            dureeString += tableau[0] + " semaines, ";
+        }
         if(tableau[1] != 0) {
-            dureeString += tableau[1] + " semaines, ";
+            dureeString += tableau[1] + " jours, ";
         }
         if(tableau[2] != 0) {
-            dureeString += tableau[2] + " jours, ";
+            dureeString += tableau[2] + " heures";
         }
-        if(tableau[3] != 0) {
-            dureeString += tableau[3] + " heures";
+        if (dureeString.equals("")) {
+        	dureeString += "0 jours";
         }
         return dureeString;
     }
@@ -129,14 +145,16 @@ public class Duree {
      * Getter de la duree.
      * @return la duree en heures.
      */
+
     public int getHeures() {
         return heures;
     }
-    public void addDuree(int toAdd) {
-        this.heures += toAdd;
+    public void addDuree(int aAjouter) {
+        this.heures += aAjouter;
     }
-    public void setHeures(int toAdd) {
-        this.heures = toAdd;
+    public void setHeures(int aAjouter) {
+        this.heures = aAjouter;
     }
+
 
 }

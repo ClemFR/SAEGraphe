@@ -1,4 +1,4 @@
-package info1.graphe.outils;
+package outils;
 
 public class Outillage {
 
