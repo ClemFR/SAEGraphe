@@ -139,7 +139,7 @@ public class Duree {
             dureeString += tableau[2] + " heures";
         }
         if (dureeString.equals("")) {
-        	dureeString += "0 jours";
+        	dureeString += "0 heures";
         }
         return dureeString;
     }

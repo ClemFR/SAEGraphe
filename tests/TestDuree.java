@@ -56,7 +56,6 @@ public class TestDuree {
 		
 		for (int i = 0; i < expectedResultForToString.length; i++) {
 			testOk &= expectedResultForToString[i].equals(setOfValidDuree[i].toString());
-			System.out.println(setOfValidDuree[i].toString());
 		}
 		return testOk;
 	}

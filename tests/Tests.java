@@ -36,6 +36,8 @@ public class Tests {
     	testsOk &= testGetTasksByPreviousTasks();
     	//testsOk &= testConstructor(); // les tests echoues a cause de celui la
     	//testOrderTasks();
+    	TestProjet.testProjetDeux();
+    	
     	if (testsOk) {
     		System.out.println("Les tests unitaires ont reussie");
     	} else {

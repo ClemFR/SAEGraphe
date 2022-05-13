@@ -37,13 +37,13 @@ public class Tache {
 		}
 	}
 	public void trouverDatePlusTard() {
-		Tache aComparer;
+		Tache precedente;
 		int dureePlusLongue;
 		
 		for (int i = 0; i < conditions.size(); i++) {
-			aComparer = conditions.get(i);
-			dureePlusLongue = auPlusTard.getHeures() - aComparer.dureeTache.getHeures();
-			aComparer.auPlusTard.setHeures(dureePlusLongue);
+			precedente = conditions.get(i);
+			dureePlusLongue = auPlusTard.getHeures() - precedente.dureeTache.getHeures();
+			precedente.auPlusTard.setHeures(dureePlusLongue);
 			
 		}
 	}
