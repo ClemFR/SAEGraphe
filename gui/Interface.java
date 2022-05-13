@@ -19,7 +19,7 @@ public class Interface {
 				System.out.println("Entree le nom de la tache : ");
 				nom = entree.next();
 				System.out.println("Entree la duree : ");
-				projet.addTask(new Tache(nom,"",new Duree(entree.nextInt())));
+				projet.ajouterTache(new Tache(nom,"",new Duree(entree.nextInt())));
 				
 				break;
 			case "calcul":
@@ -29,19 +29,19 @@ public class Interface {
 				Tache aAjouter;
 				Tache receveur;
 				for (int i = 0; i < projet.size(); i++) {
-					System.out.println(i + " | " + projet.getTask(i).getNom() + "\n");
+					System.out.println(i + " | " + projet.getTache(i).getNom() + "\n");
 				}
 				System.out.println("Choississez la tache a ajouter : ");
-				aAjouter = projet.getTask(entree.nextInt());
+				aAjouter = projet.getTache(entree.nextInt());
 				System.out.println("A quel tache ? ");
-				receveur = projet.getTask(entree.nextInt());
-				receveur.addPreliminaryTask(aAjouter);
+				receveur = projet.getTache(entree.nextInt());
+				receveur.addTachePrecedente(aAjouter);
 				break;
 			case "exit":
 				exit = true;
 				break;
 			case "printall":
-				System.out.println(projet.printAll());
+				System.out.println(projet.afficherTaches());
 				break;
 			case "print":
 				System.out.println(projet);

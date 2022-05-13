@@ -11,7 +11,7 @@ public class TestProjet {
 	protected static Projet testProjet() {
 		Projet projet = new Projet("Test","test des projets");
 		for (int i = setOfValidTask.length - 1; i >= 0; i--) {
-			projet.addTask(setOfValidTask[i]);
+			projet.ajouterTache(setOfValidTask[i]);
 		}
 		return projet;
 	}
@@ -38,7 +38,7 @@ public class TestProjet {
 		ArrayList<Tache> test = new ArrayList<Tache>();
 		for (int i = 0; i < exceptedResultForGetTaskByPreviousTasks.length; i++) {
 			testOk = exceptedResultForGetTaskByPreviousTasks[i].size() == test.size();
-			test = projet.getTasksByPreviousTasks(test);
+			test = projet.getTachesSuivantes(test);
 			
 		}
 		return testOk;
@@ -46,6 +46,6 @@ public class TestProjet {
 	protected static void testOrderTasks() {
 		Projet projet = testProjet();
 		projet.calculDate();
-		System.out.println(projet.printAll());
+		System.out.println(projet.afficherTaches());
 	}
 }

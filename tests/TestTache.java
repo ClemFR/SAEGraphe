@@ -1,8 +1,7 @@
 package tests;
 
-import objets.Duree;
 import objets.Tache;
-import static tests.Tests.setOfValidDuree;
+
 import static tests.Tests.setOfValidTask;
 
 import java.util.ArrayList;
@@ -12,11 +11,11 @@ public class TestTache {
 	
 	
 	protected static void InitPriorities() {
-		setOfValidTask[1].addPreliminaryTask(setOfValidTask[0]);
-		setOfValidTask[2].addPreliminaryTask(setOfValidTask[0]);
-		setOfValidTask[4].addPreliminaryTask(setOfValidTask[3]);
-		setOfValidTask[3].addPreliminaryTask(setOfValidTask[1]);
-		setOfValidTask[3].addPreliminaryTask(setOfValidTask[2]);
+		setOfValidTask[1].addTachePrecedente(setOfValidTask[0]);
+		setOfValidTask[2].addTachePrecedente(setOfValidTask[0]);
+		setOfValidTask[4].addTachePrecedente(setOfValidTask[3]);
+		setOfValidTask[3].addTachePrecedente(setOfValidTask[1]);
+		setOfValidTask[3].addTachePrecedente(setOfValidTask[2]);
 		
 		
 	}
@@ -26,8 +25,8 @@ public class TestTache {
 	protected static boolean testFindEarliestDate() {
 		boolean testOk = true;
 		for (int i = 0; i < exceptedEarliestDate.length; i++) {
-			setOfValidTask[i].FindEarliestDate();
-			testOk &= setOfValidTask[i].getEarliestDate().getHeures() == exceptedEarliestDate[i];
+			setOfValidTask[i].trouverDatePlusTot();
+			testOk &= setOfValidTask[i].getDatePlusTot().getHeures() == exceptedEarliestDate[i];
 
 		}
 		
@@ -44,23 +43,23 @@ public class TestTache {
 		boolean testOk = true;
 		ArrayList<Tache> condition = new ArrayList<Tache>();
 		for (int i = 0; i < expectedForHasTheseConditions[0].length; i++) {
-			testOk &= expectedForHasTheseConditions[0][i] == setOfValidTask[i].hasTheseConditions(condition);
+			testOk &= expectedForHasTheseConditions[0][i] == setOfValidTask[i].verifierPredecesseurs(condition);
 			
 		}
 		condition.add(setOfValidTask[0]);
 		for (int i = 0; i < expectedForHasTheseConditions[1].length; i++) {
-			testOk &= expectedForHasTheseConditions[1][i] == setOfValidTask[i].hasTheseConditions(condition);
+			testOk &= expectedForHasTheseConditions[1][i] == setOfValidTask[i].verifierPredecesseurs(condition);
 		}
 		condition.clear();
 		condition.add(setOfValidTask[1]);
 		condition.add(setOfValidTask[2]);
 		for (int i = 0; i < expectedForHasTheseConditions[2].length; i++) {
-			testOk &= expectedForHasTheseConditions[2][i] == setOfValidTask[i].hasTheseConditions(condition);
+			testOk &= expectedForHasTheseConditions[2][i] == setOfValidTask[i].verifierPredecesseurs(condition);
 		}
 		condition.clear();
 		condition.add(setOfValidTask[3]);
 		for (int i = 0; i < expectedForHasTheseConditions[2].length; i++) {
-			testOk &= expectedForHasTheseConditions[3][i] == setOfValidTask[i].hasTheseConditions(condition);
+			testOk &= expectedForHasTheseConditions[3][i] == setOfValidTask[i].verifierPredecesseurs(condition);
 		}	
 		return testOk;
 	}

@@ -2,117 +2,122 @@ package objets;
 import java.util.ArrayList;
 public class Tache {
 	private ArrayList<Tache> conditions = new ArrayList<Tache>();
-	public Duree taskDuration;
+	public Duree dureeTache;
 	private String nom;
 	private String description;
-	private Duree earliestDate = new Duree(0);
+	private Duree datePlusTot = new Duree(0);
 	private Duree auPlusTard = new Duree(0);
 	private Duree margeLibre = new Duree(0);
 	private Duree margeTotale = new Duree(0);
 
 	public Tache(String nom , String description, Duree deLaTache) {
-		this.taskDuration = deLaTache;
+		this.dureeTache = deLaTache;
 		this.nom = nom;
 		this.description = description;
 	}
 	
-	public void FindMargeLibre() {
-		int totale;
-		Tache toCompare;
+	public void trouverMargeLibre() {
+		int total;
+		Tache aComparer;
 		for (int i = 0; i < conditions.size(); i++) {
-			toCompare = conditions.get(i);
-			totale = earliestDate.getHeures() - toCompare.earliestDate.getHeures() - toCompare.taskDuration.getHeures();
-			toCompare.margeLibre.setHeures(totale);
+			aComparer = conditions.get(i);
+			total = datePlusTot.getHeures() - aComparer.datePlusTot.getHeures()
+					- aComparer.dureeTache.getHeures();
+			aComparer.margeLibre.setHeures(total);
 		}
 	}
-	public void FindMargeTotale() {
-		int totale;
-		Tache toCompare;
+	public void trouverMargeTotale() {
+		int total;
+		Tache aComparer;
 		for (int i = 0; i < conditions.size(); i++) {
-			toCompare = conditions.get(i);
-			totale = auPlusTard.getHeures() - toCompare.earliestDate.getHeures() - toCompare.taskDuration.getHeures();
-			toCompare.margeTotale.setHeures(totale);
+			aComparer = conditions.get(i);
+			total = auPlusTard.getHeures() - aComparer.datePlusTot.getHeures()
+					- aComparer.dureeTache.getHeures();
+			aComparer.margeTotale.setHeures(total);
 		}
 	}
-	public void FindLastestDate() {
-		Tache toCompare;
-		int longerDuration;
+	public void trouverDatePlusTard() {
+		Tache aComparer;
+		int dureePlusLongue;
 		
 		for (int i = 0; i < conditions.size(); i++) {
-			toCompare = conditions.get(i);
-			longerDuration = auPlusTard.getHeures() - toCompare.taskDuration.getHeures();
-			toCompare.auPlusTard.setHeures(longerDuration);
+			aComparer = conditions.get(i);
+			dureePlusLongue = auPlusTard.getHeures() - aComparer.dureeTache.getHeures();
+			aComparer.auPlusTard.setHeures(dureePlusLongue);
 			
 		}
 	}
 	/**
 	 * Calcule la date au plus tot de cette tache par rapport aux taches prealable
 	 */
-	public void FindEarliestDate() {
-		Tache toCompare;
-		boolean isShorter;
-		int longerDuration;
+	public void trouverDatePlusTot() {
+		Tache aComparer;
+		boolean isPlusPetit;
+		int dureePlusLongue;
 		
 		for (int i = 0; i < conditions.size(); i++) {
-			toCompare = conditions.get(i);
-			longerDuration =  toCompare.earliestDate.getHeures() + toCompare.taskDuration.getHeures();
-			isShorter = earliestDate.getHeures() < longerDuration;
+			aComparer = conditions.get(i);
+			dureePlusLongue = aComparer.datePlusTot.getHeures()
+					          + aComparer.dureeTache.getHeures();
+			isPlusPetit = datePlusTot.getHeures() < dureePlusLongue;
 			
-			if (isShorter) earliestDate.setHeures(longerDuration);
+			if (isPlusPetit) datePlusTot.setHeures(dureePlusLongue);
 		}
 		
 	}
 	/**
-	 * @param filtered un filtre de tache
+	 * @param tachesPrecedentes un filtre de tache
 	 * @return true si l'enssemble de tache prealable est comprit dans le filtre
 	 *         ou si le filtre et l'enssemble de tache prealable sont vide
 	 *         sinon false
 	 */
-	public boolean hasTheseConditions(ArrayList<Tache> filtered) {
-		boolean emptyFiltered = (filtered == null || filtered.isEmpty()) && this.getConditions().isEmpty();
-		boolean arePrerequisiteTaskInclued = false;
-		if (!emptyFiltered && !this.getConditions().isEmpty()) {
-			arePrerequisiteTaskInclued = true;
+	public boolean verifierPredecesseurs(ArrayList<Tache> tachesPrecedentes) {
+		boolean filtreVide = (tachesPrecedentes == null || tachesPrecedentes.isEmpty())
+				              && this.getConditions().isEmpty();
+		boolean isTachesPrecedentesIncluses = false;
+		if (!filtreVide && !this.getConditions().isEmpty()) {
+			isTachesPrecedentesIncluses = true;
 			for (int i = 0; i < this.getConditions().size(); i++) {
-				arePrerequisiteTaskInclued &= filtered.contains(this.getConditions().get(i));
+				isTachesPrecedentesIncluses
+					&= tachesPrecedentes.contains(this.getConditions().get(i));
 			} 
 		}		        
-		return arePrerequisiteTaskInclued || emptyFiltered;
+		return isTachesPrecedentesIncluses || filtreVide;
 	}
 	@Override
 	public String toString() {
 		StringBuilder message = new StringBuilder();
 
-		message.append(this.nom + " :\nDuree : " + this.taskDuration + "\n"
-					   + "Date au plus tot : " + this.earliestDate + "\n"
+		message.append(this.nom + " :\nDuree : " + this.dureeTache + "\n"
+					   + "Date au plus tot : " + this.datePlusTot + "\n"
 					   + "Date au plus tard : " + this.auPlusTard + "\n"
 					   + "Marge Libre : " + margeLibre + "\n"
 					   + "Marge Totale : " + margeTotale + "\n"
 			           + this.description + "\nTache Prealable :");
 					   
-		for (int nbTask = 0; nbTask < this.conditions.size(); nbTask++) {
-			message.append("\n - " + this.conditions.get(nbTask).getNom());
+		for (int nbTache = 0; nbTache < this.conditions.size(); nbTache++) {
+			message.append("\n - " + this.conditions.get(nbTache).getNom());
 		}
 		return message.toString();
 	}
 	public void setMargeTotale(Duree margeTotale) {
 		this.margeTotale = margeTotale;
 	}
-	public void setLastestDate(Duree auPlusTard) {
+	public void setDatePlusTard(Duree auPlusTard) {
 		this.auPlusTard = auPlusTard;
 	}
-	public void addPreliminaryTask(Tache prealable) {
+	public void addTachePrecedente(Tache prealable) {
 		this.conditions.add(prealable);
 	}
 	
 	public String getNom() {
 		return this.nom;
 	}
-	public void setEarliestDate(Duree earliestDate) {
-		this.earliestDate = earliestDate;
+	public void setDatePlusTot(Duree datePlusTot) {
+		this.datePlusTot = datePlusTot;
 	}
-	public Duree getEarliestDate () {
-		return this.earliestDate;
+	public Duree getDatePlusTot() {
+		return this.datePlusTot;
 	}
 	
 	public ArrayList<Tache> getConditions() {

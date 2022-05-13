@@ -5,8 +5,8 @@
 package objets;
 
 /**
- * Gestion de dureees.
- * Une duree est stockee sous la forme d'un entier positif representant un nombre d'heures.
+ * Gestion de duréees.
+ * Une durée est stockée sous la forme d'un entier positif representant un nombre d'heures.
  * Une duree est créée a  partir d'un nombre d'heures et/ou de jours
  * et/ou de semaines.
  *
@@ -35,8 +35,9 @@ public class Duree {
      * @param heures nombre d'heures qu'on souhaite utiliser pour la duree.
      */
     public Duree(int heures) {
-        if(heures < 0) {
-            throw new IllegalArgumentException("Le nombre d'heures ne peut pas etre negatif.");
+        if (heures < 0) {
+            throw new IllegalArgumentException("Le nombre d'heures ne peut pas"
+                                               + " etre negatif.");
         }
 
         this.heures = heures;
@@ -51,7 +52,7 @@ public class Duree {
      * @param heures nombre d'heures qu'on souhaite utiliser pour la duree.
      */
     public Duree(double jours, int heures) {
-        if(jours < 0 || heures < 0) {
+        if (jours < 0 || heures < 0) {
             throw new IllegalArgumentException("Le nombre de jours" +
                     " et d'heures ne peuvent pas etre negatifs.");
         }
@@ -68,9 +69,10 @@ public class Duree {
      * @param heures nombre d'heures qu'on souhaite utiliser pour la duree.
      */
     public Duree(double semaines, double jours, int heures) {
-        if(semaines < 0 || jours < 0 || heures < 0) {
-            throw new IllegalArgumentException("Le nombre de semaines," +
-                    " de jours et d'heures ne peuvent pas etre negatifs.");
+        if (semaines < 0 || jours < 0 || heures < 0) {
+            throw new IllegalArgumentException("Le nombre de semaines,"
+                                               + " de jours et d'heures ne peuvent pas"
+                                               + " etre negatifs.");
         }
 
         this.heures = (int) Math.round(semaines * 7 * 24)
@@ -127,13 +129,13 @@ public class Duree {
     public String toString() {
         int[] tableau = getDureeTableau();
         String dureeString = "";
-        if(tableau[0] != 0) {
+        if (tableau[0] != 0) {
             dureeString += tableau[0] + " semaines, ";
         }
-        if(tableau[1] != 0) {
+        if (tableau[1] != 0) {
             dureeString += tableau[1] + " jours, ";
         }
-        if(tableau[2] != 0) {
+        if (tableau[2] != 0) {
             dureeString += tableau[2] + " heures";
         }
         if (dureeString.equals("")) {
