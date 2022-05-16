@@ -2,6 +2,7 @@ package objets;
 import java.util.ArrayList;
 public class Tache {
 	private ArrayList<Tache> conditions = new ArrayList<Tache>();
+	
 	public Duree dureeTache;
 	private String nom;
 	private String description;
@@ -38,13 +39,18 @@ public class Tache {
 	}
 	public void trouverDatePlusTard() {
 		Tache precedente;
-		int dureePlusLongue;
+		int datePlusCourte = Integer.MAX_VALUE;
 		
 		for (int i = 0; i < conditions.size(); i++) {
 			precedente = conditions.get(i);
-			dureePlusLongue = auPlusTard.getHeures() - precedente.dureeTache.getHeures();
-			precedente.auPlusTard.setHeures(dureePlusLongue);
+
+			if (auPlusTard.getHeures() - precedente.dureeTache.getHeures() < datePlusCourte) {
+				datePlusCourte = auPlusTard.getHeures() - precedente.dureeTache.getHeures();
+			}
 			
+		}
+		for (int i = 0; i < conditions.size(); i++) {
+			conditions.get(i).auPlusTard.setHeures(datePlusCourte);
 		}
 	}
 	/**

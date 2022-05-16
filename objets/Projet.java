@@ -15,10 +15,11 @@ public class Projet {
     }
 
     public void calculDate() {
-        if (toutesTaches.contains(FinDeProjet)) {
-            toutesTaches.remove(FinDeProjet);
-        }
+        
         toutesTaches = ordonnerTaches();
+        for (Tache aAjouter : getTacheFinales()) {
+        	FinDeProjet.addTachePrecedente(aAjouter);
+        }
         for (int i = 0; i < toutesTaches.size(); i++) {
             toutesTaches.get(i).trouverDatePlusTot();
         }
@@ -51,16 +52,7 @@ public class Projet {
                 filtre.add(tachesSuivantes.get(calculDate));
             }
             // TODO : traduire variable
-            if (getTachesSuivantes(tachesSuivantes).size() == 0) {
-                for (int lastTasks = 0;
-                         lastTasks < tachesSuivantes.size();
-                         lastTasks++) {
-                    // Création d'une tache qui sera la derniere tache du projet pour
-                    // permettre de calculer la date de fin de projet
-                    FinDeProjet.addTachePrecedente(tachesSuivantes
-                            .get(lastTasks));
-                }
-            }
+            
             tachesSuivantes
                     = getTachesSuivantes(tachesSuivantes);
 
@@ -68,7 +60,21 @@ public class Projet {
 
         return filtre;
     }
-
+    
+    public ArrayList<Tache> getTacheFinales() {
+    	ArrayList<Tache> tachesTrouve = new ArrayList<Tache>();
+    	boolean estContenu;
+    	for (Tache aTester : toutesTaches) {
+    		estContenu = false;
+    		for (Tache filtre : toutesTaches) {
+    			estContenu |= filtre.getConditions().contains(aTester);
+    		}
+    		if (!estContenu) {
+    			tachesTrouve.add(aTester);
+    		}
+    	}
+    	return tachesTrouve;
+    }
     /**
      * @param tachesPrecedentes un ensemble de tache servant de filtre
      * @return Un enssemble de tache ou chaque tache a un ensemble de

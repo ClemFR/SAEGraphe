@@ -26,23 +26,23 @@ public class Tests {
 			
 	};
 	public static void main(String[] args) {
-		InitBd();
-		InitPriorities();
-    	boolean testsOk = true;
-    	testsOk &= testGetDuree();
-    	testsOk &= testToString();
-    	testsOk &= testFindEarliestDate();
-    	testsOk &= testVerifierCondition();
-    	testsOk &= testGetTasksByPreviousTasks();
+//		InitBd();
+//		InitPriorities();
+//    	boolean testsOk = true;
+//    	testsOk &= testGetDuree();
+//    	testsOk &= testToString();
+//    	testsOk &= testFindEarliestDate();
+//    	testsOk &= testVerifierCondition();
+//    	testsOk &= testGetTasksByPreviousTasks();
     	//testsOk &= testConstructor(); // les tests echoues a cause de celui la
     	//testOrderTasks();
     	TestProjet.testProjetDeux();
     	
-    	if (testsOk) {
-    		System.out.println("Les tests unitaires ont reussie");
-    	} else {
-    		System.out.println("Les tests unitaires ont echoues");
-    	}
+//    	if (testsOk) {
+//    		System.out.println("Les tests unitaires ont reussie");
+//    	} else {
+//    		System.out.println("Les tests unitaires ont echoues");
+//    	}
 
     }
 }
