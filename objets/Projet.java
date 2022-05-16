@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Projet {
     private String nom;
     private String description;
+    private ArrayList<Evenement> toutEvenement = new ArrayList<Evenement>();
     private ArrayList<Tache> toutesTaches = new ArrayList<Tache>();
     private Tache FinDeProjet = new Tache("Fin", "Fin de projet",
                                       new Duree(0));
@@ -49,7 +50,7 @@ public class Projet {
                  calculDate < tachesSuivantes.size();
                  calculDate++) {
 
-                filtre.add(tachesSuivantes.get(calculDate));
+                
             }
             // TODO : traduire variable
             
@@ -60,7 +61,29 @@ public class Projet {
 
         return filtre;
     }
-    
+    private ArrayList<Evenement> filtreTache(ArrayList<Tache> tachesAFiltrer) {
+    	ArrayList<Evenement> nouveauxEvenements = new ArrayList<>();
+    	nouveauxEvenements.add(new Evenement());
+    	nouveauxEvenements.get(0).addTache(tachesAFiltrer.get(0));
+
+    	for (Tache aTester : tachesAFiltrer) {
+    		
+    		for (Evenement e : nouveauxEvenements) {
+    			if (e.predecesseursEgaux(aTester)) {
+    				e.addTache(aTester);
+    				aTester.setEvenementOrigine(e);
+    			}
+    			
+    		}
+    		if (aTester.getEvenementOrigine() == null) {
+    			nouveauxEvenements.add(new Evenement());
+    			aTester.setEvenementOrigine(nouveauxEvenements.get(nouveauxEvenements.size() - 1));
+    			nouveauxEvenements.get(nouveauxEvenements.size() - 1).addTache(aTester);
+    		}
+    	}
+    	
+		return nouveauxEvenements;
+    }
     public ArrayList<Tache> getTacheFinales() {
     	ArrayList<Tache> tachesTrouve = new ArrayList<Tache>();
     	boolean estContenu;
