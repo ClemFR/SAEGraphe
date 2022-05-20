@@ -1,5 +1,8 @@
 package objets;
+import exception.CycleException;
+
 import java.util.ArrayList;
+
 public class Tache {
 	private ArrayList<Tache> conditions = new ArrayList<Tache>();
 	public Duree dureeTache;
@@ -100,16 +103,54 @@ public class Tache {
 		}
 		return message.toString();
 	}
+
+	public void addTachePrecedente(Tache prealable) {
+		this.conditions.add(prealable);
+
+		// recherche de cycle potentiel
+		String nomTache = this.getNom();
+		ArrayList<Tache> tachesPrecentes = new ArrayList<Tache>();
+		ArrayList<Tache> tachesAnalysees = new ArrayList<Tache>();
+		boolean cycleTrouve;
+
+		ArrayList<Tache> tachesATraiter = new ArrayList<Tache>();
+		tachesPrecentes = prealable.getConditions();
+		cycleTrouve = false;
+		boolean sortieBoucle = false;
+
+		do {
+			tachesATraiter.addAll(tachesPrecentes);
+			tachesPrecentes.removeAll(tachesPrecentes);
+
+			for (Tache enTraitement : tachesATraiter)  {
+				tachesAnalysees.add(enTraitement);
+				if (nomTache.equals(enTraitement.getNom())) {
+					cycleTrouve = true;
+				} else {
+					for (Tache precedente : enTraitement.getConditions()) {
+						if (!tachesAnalysees.contains(precedente)) {
+							tachesPrecentes.add(precedente);
+						}
+					}
+				}
+			}
+			sortieBoucle = tachesPrecentes.size() == 0 || cycleTrouve;
+		} while (!sortieBoucle);
+
+		if (cycleTrouve) {
+			this.conditions.remove(prealable);
+			throw new CycleException("Cycle détécté causé par ce lien");
+		}
+
+
+	}
+
 	public void setMargeTotale(Duree margeTotale) {
 		this.margeTotale = margeTotale;
 	}
 	public void setDatePlusTard(Duree auPlusTard) {
 		this.auPlusTard = auPlusTard;
 	}
-	public void addTachePrecedente(Tache prealable) {
-		this.conditions.add(prealable);
-	}
-	
 	public String getNom() {
 		return this.nom;
 	}

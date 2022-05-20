@@ -29,11 +29,13 @@ public class Tests {
 		InitBd();
 		InitPriorities();
     	boolean testsOk = true;
-    	testsOk &= testGetDuree();
-    	testsOk &= testToString();
-    	testsOk &= testFindEarliestDate();
+
+    	//testsOk &= testGetDuree();
+    	//testsOk &= testToString();
+    	//testsOk &= testFindEarliestDate();
     	testsOk &= testVerifierCondition();
-    	testsOk &= testGetTasksByPreviousTasks();
+    	//testsOk &= testGetTasksByPreviousTasks();
+		//testsOk &= testCycle();
     	//testsOk &= testConstructor(); // les tests echoues a cause de celui la
     	//testOrderTasks();
     	if (testsOk) {
