@@ -54,17 +54,15 @@ public class Tache {
 	 * Calcule la date au plus tot de cette tache par rapport aux taches prealable
 	 */
 	public void trouverDatePlusTot() {
-		Tache aComparer;
-		boolean isPlusPetit;
 		int dureePlusLongue;
 		
-		for (int i = 0; i < conditions.size(); i++) {
-			aComparer = conditions.get(i);
+		for (Tache aComparer : conditions) {
+
 			dureePlusLongue = aComparer.datePlusTot.getHeures()
 					          + aComparer.dureeTache.getHeures();
-			isPlusPetit = datePlusTot.getHeures() < dureePlusLongue;
-			
-			if (isPlusPetit) datePlusTot.setHeures(dureePlusLongue);
+			if (datePlusTot.getHeures() < dureePlusLongue) {
+                datePlusTot.setHeures(dureePlusLongue);
+            }
 		}
 		
 	}
@@ -104,45 +102,45 @@ public class Tache {
 		return message.toString();
 	}
 
+
+
+    public boolean detectionCycle(Tache prealable) {
+        // recherche de cycle potentiel
+        ArrayList<Tache> tachesPrecentes = new ArrayList<Tache>();
+        ArrayList<Tache> tachesAnalysees = new ArrayList<Tache>();
+        boolean cycleTrouve;
+
+        ArrayList<Tache> tachesATraiter = new ArrayList<Tache>();
+        tachesPrecentes = prealable.getConditions();
+        cycleTrouve = false;
+
+        do {
+            for (Tache e : tachesPrecentes) {
+                if (e.equals(this)) {
+                    cycleTrouve = true;
+                } 
+                if (!tachesAnalysees.contains(e)) {
+                    tachesAnalysees.add(e);
+                }
+                for (Tache a : e.getConditions()) {
+                    if (!tachesATraiter.contains(a) && !tachesAnalysees.contains(a)) {
+                        tachesATraiter.add(a);
+                    }
+                }
+            }
+            tachesPrecentes = tachesATraiter;
+            tachesATraiter.clear();
+        } while (tachesPrecentes.size() != 0 && !cycleTrouve);
+        return cycleTrouve;
+    }
+
+
+
 	public void addTachePrecedente(Tache prealable) {
-		this.conditions.add(prealable);
-
-		// recherche de cycle potentiel
-		String nomTache = this.getNom();
-		ArrayList<Tache> tachesPrecentes = new ArrayList<Tache>();
-		ArrayList<Tache> tachesAnalysees = new ArrayList<Tache>();
-		boolean cycleTrouve;
-
-		ArrayList<Tache> tachesATraiter = new ArrayList<Tache>();
-		tachesPrecentes = prealable.getConditions();
-		cycleTrouve = false;
-		boolean sortieBoucle = false;
-
-		do {
-			tachesATraiter.addAll(tachesPrecentes);
-			tachesPrecentes.removeAll(tachesPrecentes);
-
-			for (Tache enTraitement : tachesATraiter)  {
-				tachesAnalysees.add(enTraitement);
-				if (nomTache.equals(enTraitement.getNom())) {
-					cycleTrouve = true;
-				} else {
-					for (Tache precedente : enTraitement.getConditions()) {
-						if (!tachesAnalysees.contains(precedente)) {
-							tachesPrecentes.add(precedente);
-						}
-					}
-				}
-			}
-			sortieBoucle = tachesPrecentes.size() == 0 || cycleTrouve;
-		} while (!sortieBoucle);
-
-		if (cycleTrouve) {
-			this.conditions.remove(prealable);
-			throw new CycleException("Cycle détécté causé par ce lien");
-		}
-
-
+        if(detectionCycle(prealable)) {
+           throw new CycleException("Cycle trouve");
+        }
+        conditions.add(prealable);
 	}
 
 	public void setMargeTotale(Duree margeTotale) {

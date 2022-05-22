@@ -12,13 +12,4 @@ public class Outillage {
 		
 	}
 
-
-	public static void AssurerEgaliteDoubleErreur(double effectiveResult,
-											   double waitedResult,
-											   double precision) {
-		if(!(effectiveResult - waitedResult <= precision)) {
-			throw new EchecTest("");
-		}
-
-	}
 }

@@ -58,7 +58,7 @@ public class Projet {
                     // Création d'une tache qui sera la derniere tache du projet pour
                     // permettre de calculer la date de fin de projet
                     FinDeProjet.addTachePrecedente(tachesSuivantes
-                            .get(lastTasks));
+                               .get(lastTasks));
                 }
             }
             tachesSuivantes
@@ -121,7 +121,7 @@ public class Projet {
         return toutesTaches.size();
     }
 
-    public void ajouterTache(Tache aAjouter) {
+    public void addTache(Tache aAjouter) {
         this.toutesTaches.add(aAjouter);
     }
 

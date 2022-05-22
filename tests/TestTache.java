@@ -2,108 +2,123 @@ package tests;
 
 import objets.Duree;
 import objets.Tache;
-
-import static tests.Tests.setOfValidTask;
+import exception.EchecTest;
+import exception.CycleException;
 
 import java.util.ArrayList;
 
 public class TestTache {
-	
-	
-	
-	protected static void InitPriorities() {
-		setOfValidTask[1].addTachePrecedente(setOfValidTask[0]);
-		setOfValidTask[2].addTachePrecedente(setOfValidTask[0]);
-		setOfValidTask[4].addTachePrecedente(setOfValidTask[3]);
-		setOfValidTask[3].addTachePrecedente(setOfValidTask[1]);
-		setOfValidTask[3].addTachePrecedente(setOfValidTask[2]);
-		
-		
-	}
-	protected static int[] exceptedEarliestDate= {
-			0,80,80,7015,14707
-	};
-	protected static boolean testFindEarliestDate() {
-		boolean testOk = true;
-		for (int i = 0; i < exceptedEarliestDate.length; i++) {
-			setOfValidTask[i].trouverDatePlusTot();
-			testOk &= setOfValidTask[i].getDatePlusTot().getHeures() == exceptedEarliestDate[i];
 
-		}
-		
-		return testOk;
-	}
-	protected static boolean[][] expectedForHasTheseConditions = {
-			{true,false,false,false,false},
-			{false,true,true,false,false},
-			{false,false,false,true,false},
-			{false,false,false,false,true}
-	};
+    /**********************             JEUX DE DONNEES              **********************/
 
-	protected static boolean testVerifierCondition() {
-		boolean testOk = true;
-		ArrayList<Tache> condition = new ArrayList<Tache>();
-		for (int i = 0; i < expectedForHasTheseConditions[0].length; i++) {
-			testOk &= expectedForHasTheseConditions[0][i] == setOfValidTask[i].verifierPredecesseurs(condition);
-			System.out.println(setOfValidTask[i].verifierPredecesseurs(condition));
-		}
-		System.out.println("------------------");
-		condition.add(setOfValidTask[0]);
-		for (int i = 0; i < expectedForHasTheseConditions[1].length; i++) {
-			testOk &= expectedForHasTheseConditions[1][i] == setOfValidTask[i].verifierPredecesseurs(condition);
-			System.out.println(setOfValidTask[i].verifierPredecesseurs(condition));
-		}
-		System.out.println("------------------");
-		condition.clear();
-		condition.add(setOfValidTask[1]);
-		condition.add(setOfValidTask[2]);
-		for (int i = 0; i < expectedForHasTheseConditions[2].length; i++) {
-			testOk &= expectedForHasTheseConditions[2][i] == setOfValidTask[i].verifierPredecesseurs(condition);
-			System.out.println(setOfValidTask[i].verifierPredecesseurs(condition));
-		}
-		System.out.println("------------------");
-		condition.clear();
-		condition.add(setOfValidTask[3]);
-		for (int i = 0; i < expectedForHasTheseConditions[3].length; i++) {
-			testOk &= expectedForHasTheseConditions[3][i] == setOfValidTask[i].verifierPredecesseurs(condition);
-			System.out.println(setOfValidTask[i].verifierPredecesseurs(condition));
-		}	
-		return testOk;
-	}
+    private Duree[] dureesValides = {
+            new Duree(       80),
+            new Duree(    80,23),
+            new Duree(  40,8,23),
+            new Duree(  45,5,12),
+            new Duree(  45,5,12)
+    };
 
 
-	protected static boolean testCycle() {
-		boolean testOk = true;
+    private final Tache[][] JEUX_DE_DONNEES = {
 
-		Duree[] jeuDureesValides = {
-				new Duree(       80),
-				new Duree(    80,23),
-				new Duree(  40,8,23),
-				new Duree(  45,5,12),
-				new Duree(  45,5,12)
-		};
-		Tache[] jeuTachesValides = {
-				new Tache("Ecrire","Apprendre a écrire pour MR Barrios",jeuDureesValides[0]),
-				new Tache("Test","Faire les jeux de tests pour MR Barrios",jeuDureesValides[1]),
-				new Tache("Algo","Faire une partie de l'algo",jeuDureesValides[2]),
-				new Tache("Pause","Faire une pause pour pas peter un plomb",jeuDureesValides[3]),
-				new Tache("FinirAlgo","Finir l'algo",jeuDureesValides[4]),
+        {       
+            new Tache(    "Ecrire","Apprendre a écrire pour MR Barrios", dureesValides[0]),
+            new Tache( "Test","Faire les jeux de tests pour MR Barrios", dureesValides[1]),
+            new Tache(              "Algo","Faire une partie de l'algo", dureesValides[2]),
+            new Tache("Pause","Faire une pause pour pas peter un plomb", dureesValides[3]),
+            new Tache(                       "FinirAlgo","Finir l'algo", dureesValides[4])
+        }
+            
+    };
 
-		};
-		jeuTachesValides[1].addTachePrecedente(jeuTachesValides[0]);
-		jeuTachesValides[2].addTachePrecedente(jeuTachesValides[0]);
-		jeuTachesValides[4].addTachePrecedente(jeuTachesValides[3]);
-		jeuTachesValides[3].addTachePrecedente(jeuTachesValides[1]);
-		jeuTachesValides[3].addTachePrecedente(jeuTachesValides[2]);
-		//Creation du cycle avec ce lien
-		try {
-			jeuTachesValides[2].addTachePrecedente(jeuTachesValides[3]);
-			testOk = false;
-		} catch (Exception e) {
-			testOk = true;
-		}
+    private final int[][][] listeContraintes = {
+        {
+            {1,0},
+            {2,0},
+            {4,3},
+            {3,1},
+            {3,2}
+        },
+        {
+            {1,0},
+            {2,0},
+            {4,3},
+            {4,1},
+            {3,2}
+        }
+    };
 
 
-		return testOk;
-	}
+
+    private Tache[] donneesExploitable;
+    /**
+     * @param jeuDeDonnees choix du jeu de donner relatif a l'instance
+     *                     de l'objet
+     * @param indiceDependance choix des dependance entre les taches
+     */
+    public TestTache(int jeuDeDonnees,int indiceDependance) {
+        donneesExploitable = JEUX_DE_DONNEES[jeuDeDonnees];
+        for (int i = 0; i < listeContraintes[indiceDependance].length; i++) {
+            try  {
+                donneesExploitable[listeContraintes[indiceDependance][i][0]]
+                .addTachePrecedente(donneesExploitable[listeContraintes[indiceDependance][i][1]]);
+            } catch (CycleException e ){
+                System.out.println(e.getMessage());
+            }
+            
+        }
+    }
+
+    
+    
+
+
+    
+    /**
+     * @param exceptedEarliestDate tableau de resultat attendu a comparer avec les calculs
+     */
+    protected void testFindEarliestDate(int[] exceptedEarliestDate) {
+
+        for (int i = 0; i < exceptedEarliestDate.length; i++) {
+            donneesExploitable[i].trouverDatePlusTot();
+            if (donneesExploitable[i].getDatePlusTot().getHeures() != exceptedEarliestDate[i]) {
+
+                throw new EchecTest("Echec Tache trouverDatePlusTot test no " + i);
+            }
+        }
+    }
+
+
+    
+    /**
+     * @param expectedForHasTheseConditions tableau de resultat a comparer
+     * @param contenueFiltre tableau interpreter pour ajouter des Tache dans la variable 'conditions'
+     */ 
+    protected void testVerifierCondition(boolean[] expectedForHasTheseConditions, int[] contenueFiltre) {
+
+        ArrayList<Tache> conditions = new ArrayList<Tache>();
+        for (int i = 0; i < contenueFiltre.length; i++) {
+
+            conditions.add(donneesExploitable[contenueFiltre[i]]);
+        }
+        for (int i = 0; i < expectedForHasTheseConditions.length; i++) {
+            if (expectedForHasTheseConditions[i] != donneesExploitable[i].verifierPredecesseurs(conditions)) {
+                throw new EchecTest("Echec verifierPredecesseurs : test no " + i);
+            }
+            
+        }
+    }
+    
+
+    protected void testCycle() {
+
+
+        try {
+            donneesExploitable[2].addTachePrecedente(donneesExploitable[3]);
+            throw new EchecTest("Oups un cycle n'a pas été detecté !");
+        } catch (CycleException e) {
+        }
+
+    }
 }
