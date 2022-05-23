@@ -19,7 +19,7 @@ public class Interface {
 				System.out.println("Entree le nom de la tache : ");
 				nom = entree.next();
 				System.out.println("Entree la duree : ");
-				projet.ajouterTache(new Tache(nom,"",new Duree(entree.nextInt())));
+				projet.addTache(new Tache(nom,"",new Duree(entree.nextInt())));
 				
 				break;
 			case "calcul":

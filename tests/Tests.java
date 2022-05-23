@@ -14,15 +14,16 @@ public class Tests {
     /* Ce tableau est interpreter pour ajouter des conditions dans une ArrayList 
      * Il est utiliser pour la fonction testVerifierCondition de TestTache
      */
-    private static int[][] contenueDesConditions = {
+    private static final int[][] CONTENUE_DES_CONDITIONS = {
             {},
             {0},
             {1,2},
             {3}
     };
+    
     /**********************             RESULTATS ATTENDUES             **********************/
 
-    private static String[] resultatAttendueToStringDuree = {
+    private static final String[] RESULTAT_ATTENDUE_TOSTRING_DUREE = {
                 /* Dans le cas où : 24h -> 1j | 7j -> 1s */
                 "3 jours, 8 heures",
                 "11 semaines, 3 jours, 23 heures",
@@ -33,7 +34,7 @@ public class Tests {
 
 
 
-    private static double[][] resultatsAttenduGetDuree = {
+    private static final double[][] RESULTATS_ATTENDU_GET_DUREE = {
                 {  80,  3.33333, 0.47619,  0.11904},
                 {1943, 80.95833,11.56547,  2.89136},
                 {6935,288.95833,41.27976, 10.31994},
@@ -41,7 +42,7 @@ public class Tests {
                 {7692,    320.5,45.78571, 11.44642}
     };
 
-    private static int[] resultatsAttenduCalculDatePlusTot = {
+    private static final int[] RESULTATSATTENDU_CALCUL_DATE_PLUS_TOT = {
             0,80,80,7015,14707
     };
 
@@ -49,7 +50,7 @@ public class Tests {
      * une variation des taches contenue dans le filtre
      * 
      */
-    private static boolean[][] resultatsAttenduVerifConditions = {
+    private static final boolean[][] RESULTATS_ATTENDU_VERIF_CONDITIONS = {
             {true,false,false,false,false},
             {false,true,true,false,false},
             {false,false,false,true,false},
@@ -80,7 +81,7 @@ public class Tests {
 
         try {
             TestDuree testToString = new TestDuree();
-            testToString.testToString(resultatAttendueToStringDuree);
+            testToString.testToString(RESULTAT_ATTENDUE_TOSTRING_DUREE);
             System.out.println("Test toString : OK!");
         } catch (EchecTest e) {
             System.out.println(e.getMessage());
@@ -88,7 +89,7 @@ public class Tests {
 
         try {
             TestDuree testDuree = new TestDuree();
-            testDuree.testGetDuree(resultatsAttenduGetDuree);
+            testDuree.testGetDuree(RESULTATS_ATTENDU_GET_DUREE);
             System.out.println("Test getDuree : OK!");
         } catch (EchecTest e) {
             System.out.println(e.getMessage());
@@ -96,21 +97,21 @@ public class Tests {
 
         try {
             TestTache testTrouverDatePlusTot = new TestTache(0,0);
-            testTrouverDatePlusTot.testFindEarliestDate(resultatsAttenduCalculDatePlusTot);
+            testTrouverDatePlusTot.testFindEarliestDate(RESULTATSATTENDU_CALCUL_DATE_PLUS_TOT);
             
             System.out.println("Test trouverDatePlusTot : OK!");
-        } catch (EchecTest e){
+        } catch (EchecTest e) {
             System.out.println(e.getMessage());
         }
         try {
             TestTache testVerifPredecesseurs = new TestTache(0,0);
-            testVerifPredecesseurs.testVerifierCondition(resultatsAttenduVerifConditions[0],contenueDesConditions[0]);
-            testVerifPredecesseurs.testVerifierCondition(resultatsAttenduVerifConditions[1],contenueDesConditions[1]);
-            testVerifPredecesseurs.testVerifierCondition(resultatsAttenduVerifConditions[2],contenueDesConditions[2]);
-            testVerifPredecesseurs.testVerifierCondition(resultatsAttenduVerifConditions[3],contenueDesConditions[3]);
+            testVerifPredecesseurs.testVerifierCondition(RESULTATS_ATTENDU_VERIF_CONDITIONS[0],CONTENUE_DES_CONDITIONS[0]);
+            testVerifPredecesseurs.testVerifierCondition(RESULTATS_ATTENDU_VERIF_CONDITIONS[1],CONTENUE_DES_CONDITIONS[1]);
+            testVerifPredecesseurs.testVerifierCondition(RESULTATS_ATTENDU_VERIF_CONDITIONS[2],CONTENUE_DES_CONDITIONS[2]);
+            testVerifPredecesseurs.testVerifierCondition(RESULTATS_ATTENDU_VERIF_CONDITIONS[3],CONTENUE_DES_CONDITIONS[3]);
 
             System.out.println("Test verifierPredecesseurs : OK!");
-        } catch (EchecTest e){
+        } catch (EchecTest e) {
             System.out.println(e.getMessage());
         }
         try {

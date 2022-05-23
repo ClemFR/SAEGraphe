@@ -23,7 +23,7 @@ public class TestTache {
     private final Tache[][] JEUX_DE_DONNEES = {
 
         {       
-            new Tache(    "Ecrire","Apprendre a écrire pour MR Barrios", dureesValides[0]),
+            new Tache(   "Ecrire","Apprendre a ï¿½crire pour MR Barrios", dureesValides[0]),
             new Tache( "Test","Faire les jeux de tests pour MR Barrios", dureesValides[1]),
             new Tache(              "Algo","Faire une partie de l'algo", dureesValides[2]),
             new Tache("Pause","Faire une pause pour pas peter un plomb", dureesValides[3]),
@@ -33,19 +33,19 @@ public class TestTache {
     };
 
     private final int[][][] listeContraintes = {
-        {
-            {1,0},
-            {2,0},
-            {4,3},
-            {3,1},
-            {3,2}
+        { /* Les taches aux quelles ont ajoute          Les contraintes */
+            {               1,                                  0        },
+            {               2,                                  0        },
+            {               4,                                  3        },
+            {               3,                                  1        },
+            {               3,                                  2        }
         },
         {
-            {1,0},
-            {2,0},
-            {4,3},
-            {4,1},
-            {3,2}
+            {               1,                                  0        },
+            {               2,                                  0        },
+            {               4,                                  3        },
+            {               4,                                  1        },
+            {               3,                                  2        }
         }
     };
 
@@ -116,7 +116,7 @@ public class TestTache {
 
         try {
             donneesExploitable[2].addTachePrecedente(donneesExploitable[3]);
-            throw new EchecTest("Oups un cycle n'a pas été detecté !");
+            throw new EchecTest("Oups un cycle n'a pas ï¿½tï¿½ detectï¿½ !");
         } catch (CycleException e) {
         }
 
