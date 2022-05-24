@@ -23,7 +23,7 @@ public class Interface {
 				
 				break;
 			case "calcul":
-				projet.calculDate();
+				projet.calculDesDates();
 				break;
 			case "addp":
 				Tache aAjouter;

@@ -70,7 +70,7 @@ public class Tests {
      *  - Test pour la detection de cycle lors d'ajout d'une tache prealable a une autre
      */ 
     public static void main(String[] args) {
-
+    	
 
         try {
             TestDuree testConstructeur = new TestDuree();
@@ -122,7 +122,8 @@ public class Tests {
         } catch (EchecTest e) {
             System.out.println(e.getMessage());
         }
-
+        TestProjet test = new TestProjet(1, 1);
+        test.test();
 
     }
 }
