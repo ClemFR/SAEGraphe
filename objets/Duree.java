@@ -31,7 +31,7 @@ public class Duree {
 
 
     /**
-     * Constructeur d'une duree a  partir d'un nombre d'heures.
+     * Définit une durée à partir d'un nombre d'heures.
      * @param heures nombre d'heures qu'on souhaite utiliser pour la duree.
      */
     public Duree(int heures) {

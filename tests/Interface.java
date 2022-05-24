@@ -1,10 +1,10 @@
-package gui;
+package tests;
+
 import java.util.Scanner;
 
 import objets.Duree;
 import objets.Projet;
 import objets.Tache;
-
 
 public class Interface {
 	
@@ -47,9 +47,8 @@ public class Interface {
 				System.out.println(projet);
 				break;
 			default:
-				System.err.println("Mauvaise entree : ) ");
+				System.err.println("tu fait quoi ?");
 			}
 		}
-	
 	}
 }

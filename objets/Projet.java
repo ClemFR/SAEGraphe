@@ -52,8 +52,7 @@ public class Projet {
 
                 
             }
-            // TODO : traduire variable
-            
+
             tachesSuivantes
                     = getTachesSuivantes(tachesSuivantes);
 
@@ -150,7 +149,7 @@ public class Projet {
         return toutesTaches.size();
     }
 
-    public void ajouterTache(Tache aAjouter) {
+    public void addTache(Tache aAjouter) {
         this.toutesTaches.add(aAjouter);
     }
 

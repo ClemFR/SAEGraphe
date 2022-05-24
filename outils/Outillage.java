@@ -1,5 +1,7 @@
 package outils;
 
+import exception.EchecTest;
+
 public class Outillage {
 
 	
@@ -8,5 +10,6 @@ public class Outillage {
 			                                   double precision) {
 		return effectiveResult - waitedResult <= precision;
 		
-	} 
+	}
+
 }

@@ -2,47 +2,127 @@ package tests;
 import static tests.TestDuree.*;
 import static tests.TestTache.*;
 import static tests.TestProjet.*;
-import static tests.Tests.setOfValidDuree;
 
+import exception.EchecTest;
 import objets.Duree;
-import objets.Projet;
 import objets.Tache;
-import java.util.Scanner;
 
 public class Tests {
-	protected static Duree[] setOfValidDuree = {
-			new Duree(       80),
-			new Duree(    80,23),
-			new Duree(  40,8,23),
-			new Duree(  45,5,12),
-			new Duree(  45,5,12)
-	};
-	protected static Tache[] setOfValidTask = {
-			new Tache("Ecrire","Apprendre a écrire pour MR Barrios",setOfValidDuree[0]),
-			new Tache("Test","Faire les jeux de tests pour MR Barrios",setOfValidDuree[1]),
-			new Tache("Algo","Faire une partie de l'algo",setOfValidDuree[2]),
-			new Tache("Pause","Faire une pause pour pas peter un plomb",setOfValidDuree[3]),
-			new Tache("FinirAlgo","Finir l'algo",setOfValidDuree[4]),
-			
-	};
-	public static void main(String[] args) {
-//		InitBd();
-//		InitPriorities();
-//    	boolean testsOk = true;
-//    	testsOk &= testGetDuree();
-//    	testsOk &= testToString();
-//    	testsOk &= testFindEarliestDate();
-//    	testsOk &= testVerifierCondition();
-//    	testsOk &= testGetTasksByPreviousTasks();
-    	//testsOk &= testConstructor(); // les tests echoues a cause de celui la
-    	//testOrderTasks();
-    	TestProjet.testProjetDeux();
-    	
-//    	if (testsOk) {
-//    		System.out.println("Les tests unitaires ont reussie");
-//    	} else {
-//    		System.out.println("Les tests unitaires ont echoues");
-//    	}
+
+
+    /**********************             JEUX DE DONNEES              **********************/
+
+    /* Ce tableau est interpreter pour ajouter des conditions dans une ArrayList 
+     * Il est utiliser pour la fonction testVerifierCondition de TestTache
+     */
+    private static final int[][] CONTENUE_DES_CONDITIONS = {
+            {},
+            {0},
+            {1,2},
+            {3}
+    };
+    
+    /**********************             RESULTATS ATTENDUES             **********************/
+
+    private static final String[] RESULTAT_ATTENDUE_TOSTRING_DUREE = {
+                /* Dans le cas où : 24h -> 1j | 7j -> 1s */
+                "3 jours, 8 heures",
+                "11 semaines, 3 jours, 23 heures",
+                "41 semaines, 1 jours, 23 heures",
+                "45 semaines, 5 jours, 12 heures"
+
+    };
+
+
+
+    private static final double[][] RESULTATS_ATTENDU_GET_DUREE = {
+                {  80,  3.33333, 0.47619,  0.11904},
+                {1943, 80.95833,11.56547,  2.89136},
+                {6935,288.95833,41.27976, 10.31994},
+                {7692,    320.5,45.78571, 11.44642},
+                {7692,    320.5,45.78571, 11.44642}
+    };
+
+    private static final int[] RESULTATSATTENDU_CALCUL_DATE_PLUS_TOT = {
+            0,80,80,7015,14707
+    };
+
+    /* Chaque ligne du tableau représente les resultats attendue pour 
+     * une variation des taches contenue dans le filtre
+     * 
+     */
+    private static final boolean[][] RESULTATS_ATTENDU_VERIF_CONDITIONS = {
+            {true,false,false,false,false},
+            {false,true,true,false,false},
+            {false,false,false,true,false},
+            {false,false,false,false,true}
+    };
+
+
+
+    /**
+     * Lancement de tout les tests unitaires :
+     *  - Test du constructeur de 'Duree'
+     *  - Test de la conversion de 'Duree' en String
+     *  - Test de la conversion de 'Duree' en differentes unite de temp
+     *  - Test pour trouver la date au plus tot d une 'Tache'
+     *  - Test pour trouver les predecesseur d une Tache dans un enssemble
+     *  - Test pour la detection de cycle lors d'ajout d'une tache prealable a une autre
+     */ 
+    public static void main(String[] args) {
+
+
+        try {
+            TestDuree testConstructeur = new TestDuree();
+            testConstructeur.testConstructor();
+            System.out.println("Test du constructeur : OK!");
+        } catch (EchecTest e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            TestDuree testToString = new TestDuree();
+            testToString.testToString(RESULTAT_ATTENDUE_TOSTRING_DUREE);
+            System.out.println("Test toString : OK!");
+        } catch (EchecTest e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            TestDuree testDuree = new TestDuree();
+            testDuree.testGetDuree(RESULTATS_ATTENDU_GET_DUREE);
+            System.out.println("Test getDuree : OK!");
+        } catch (EchecTest e) {
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            TestTache testTrouverDatePlusTot = new TestTache(0,0);
+            testTrouverDatePlusTot.testFindEarliestDate(RESULTATSATTENDU_CALCUL_DATE_PLUS_TOT);
+            
+            System.out.println("Test trouverDatePlusTot : OK!");
+        } catch (EchecTest e) {
+            System.out.println(e.getMessage());
+        }
+        try {
+            TestTache testVerifPredecesseurs = new TestTache(0,0);
+            testVerifPredecesseurs.testVerifierCondition(RESULTATS_ATTENDU_VERIF_CONDITIONS[0],CONTENUE_DES_CONDITIONS[0]);
+            testVerifPredecesseurs.testVerifierCondition(RESULTATS_ATTENDU_VERIF_CONDITIONS[1],CONTENUE_DES_CONDITIONS[1]);
+            testVerifPredecesseurs.testVerifierCondition(RESULTATS_ATTENDU_VERIF_CONDITIONS[2],CONTENUE_DES_CONDITIONS[2]);
+            testVerifPredecesseurs.testVerifierCondition(RESULTATS_ATTENDU_VERIF_CONDITIONS[3],CONTENUE_DES_CONDITIONS[3]);
+
+            System.out.println("Test verifierPredecesseurs : OK!");
+        } catch (EchecTest e) {
+            System.out.println(e.getMessage());
+        }
+        try {
+            TestTache testCycle = new TestTache(0,0);
+            testCycle.testCycle();
+            System.out.println("Test verif cycle : OK!");
+        } catch (EchecTest e) {
+            System.out.println(e.getMessage());
+        }
+
 
     }
 }
