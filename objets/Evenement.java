@@ -20,7 +20,7 @@ public class Evenement {
 	}
 	
 	public Duree getDatePlusTot() {
-		return datePlusTot	;
+		return datePlusTot;
 	}
 	public Duree getDatePlusTard() {
 		return datePlusTard;

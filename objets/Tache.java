@@ -215,6 +215,10 @@ public class Tache {
 	 * @throws CycleException si son ajout creer un circuit dans le projet
 	 */
 	public void addTachePrecedente(Tache prealable) {
+		if (predecesseurs.contains(prealable)) {
+			throw new IllegalArgumentException("Cette tâche a déjà été ajoutée"
+					                           + " à la liste des tâches préalables");
+		}
 		if(detectionCircuit(prealable)) {
 			throw new CycleException("Cycle trouve");
 		}

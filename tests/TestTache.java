@@ -8,6 +8,7 @@ import exception.EchecTest;
 import exception.CycleException;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class TestTache {
 
@@ -124,5 +125,14 @@ public class TestTache {
 		} catch (CycleException e) {
 		}
 
+	}
+
+	protected void testAjoutTachePrealableExistante() {
+		try {
+			JEUX_DE_DONNEES[0][4].addTachePrecedente(JEUX_DE_DONNEES[0][3]);
+			throw new EchecTest("Tache prealable ajoutée en double");
+		} catch (IllegalArgumentException erreurAttendue) {
+			System.out.println("Test 'testAjoutTachePrealableExistante()' reussi");
+		}
 	}
 }
