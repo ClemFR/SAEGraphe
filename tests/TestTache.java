@@ -2,13 +2,11 @@ package tests;
 
 import objets.Duree;
 import objets.Evenement;
-import objets.Projet;
 import objets.Tache;
 import exception.EchecTest;
 import exception.CycleException;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class TestTache {
 
@@ -121,7 +119,7 @@ public class TestTache {
 
 		try {
 			donneesExploitable[2].addTachePrecedente(donneesExploitable[3]);
-			throw new EchecTest("Oups un cycle n'a pas �t� detect� !");
+			throw new EchecTest("Oups un cycle n'a pas été detecté !");
 		} catch (CycleException e) {
 		}
 

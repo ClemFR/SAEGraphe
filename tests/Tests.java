@@ -1,11 +1,11 @@
 package tests;
-import static tests.TestDuree.*;
-import static tests.TestTache.*;
-import static tests.TestProjet.*;
 
 import exception.EchecTest;
 import objets.Duree;
+import objets.Projet;
 import objets.Tache;
+
+import java.io.*;
 
 public class Tests {
 
@@ -122,15 +122,35 @@ public class Tests {
         } catch (EchecTest e) {
             System.out.println(e.getMessage());
         }
-        TestProjet test = new TestProjet(1, 1);
-        test.test();
-        try {
-            TestTache prealable = new TestTache(0,0);
-            prealable.testAjoutTachePrealableExistante();
-        } catch (EchecTest e) {
-            System.out.println(e.getMessage());
-        }
 
+//        TestProjet test = new TestProjet(1, 1);
+//        test.test();
+//        try {
+//            TestTache prealable = new TestTache(0,0);
+//            prealable.testAjoutTachePrealableExistante();
+//        } catch (EchecTest e) {
+//            System.out.println(e.getMessage());
+//        }
+
+        File f = new File("testSvg.ser");
+
+        try {
+            FileInputStream fis = new FileInputStream(f);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+
+            Projet p = (Projet) ois.readObject();
+            ois.close();
+
+            p.addTache(new Tache("duyzafjzdgv", "dazhgjhdaz", new Duree(0)));
+            p.calculDesDates();
+            System.out.println(p.afficherTaches());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
     }
 }

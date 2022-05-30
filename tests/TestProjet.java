@@ -4,12 +4,13 @@ import objets.Duree;
 import objets.Evenement;
 import objets.Projet;
 import objets.Tache;
-import objets.Duree;
-
-
-import java.util.ArrayList;
 
 import exception.CycleException;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 public class TestProjet {
 	
@@ -101,6 +102,19 @@ public class TestProjet {
     	
     	projet.calculDesDates();
     	System.out.println(projet.afficherTaches());
+    }
+
+    public void testSauveragrde() {
+    	File f = new File("testSvg.ser");
+        try {
+            FileOutputStream fos = new FileOutputStream(f.getAbsoluteFile());
+            ObjectOutputStream oos =  new ObjectOutputStream(fos) ;
+            oos.writeObject(projet);
+            fos.close();
+            System.out.println("Sauvegarde effectuée");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
