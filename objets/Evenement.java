@@ -11,31 +11,32 @@ import java.io.Serializable;
  */
 public class Evenement implements Serializable {
 	
-	
-	private Duree datePlusTot;
-	private Duree datePlusTard;
+	private double datePlusTot;
+
+	private double datePlusTard;
 	
 	
 	public Evenement() {
-		datePlusTot = new Duree(0);
-		datePlusTard = new Duree(0);
+		//Double.NaN --> Date pas encore calculée
+		datePlusTot = Double.NaN;
+		datePlusTard = Double.NaN;
 		
 	}
 	
-	public Duree getDatePlusTot() {
+	public double getDatePlusTot() {
 		return datePlusTot;
 	}
-	public Duree getDatePlusTard() {
+	public double getDatePlusTard() {
 		return datePlusTard;
 	}
 	
 
 	public void setDatePlusTot(int duree) {
-		datePlusTot.setHeures(duree);
+		datePlusTot = duree;
 	}
 
 	public void setDatePlusTard(int duree) {
-		datePlusTard.setHeures(duree);
+		datePlusTard = duree;
 	}
 
 	

@@ -16,14 +16,22 @@ public class Projet implements Serializable {
 	private String nom;
 	private String description;
 	private ArrayList<Tache> toutesTaches;
-	// Tache supplementaire ajouter automatiquement pour calculer la date de fin de projet et les dates au plus Tard
-	private Tache FinDeProjet;
+	
+	/**
+	 *  Tache supplementaire ajouter automatiquement pour calculer la date de fin de projet et les dates au plus Tard
+	 */
+	private Tache finProjet;
 
 
+	/**
+	 * Définit un nouveau projet
+	 * @param nom Le nom du projet
+	 * @param description La description du projet
+	 */
 	public Projet(String nom, String description) {
 		this.nom = nom;
 		this.description = description;
-		FinDeProjet = new Tache("Fin", "Fin de projet",new Duree(0));
+		finProjet = new Tache("Fin", "Fin de projet",new Duree(0));
 		toutesTaches = new ArrayList<Tache>();
 	}
 
@@ -33,60 +41,37 @@ public class Projet implements Serializable {
 	 */
 	public void calculDesDates() {
 
-		toutesTaches = ordonnerTaches();
-		FinDeProjet.setEvenementOrigine(new Evenement());
+		setEvenements(toutesTaches);
+		finProjet.setEvenementOrigine(new Evenement());
 		for (Tache finale : getTacheFinales()) {
-			FinDeProjet.addTachePrecedente(finale);
+			finProjet.addTachePrecedente(finale);
 		}
 
-		toutesTaches.add(FinDeProjet);
+		toutesTaches.add(finProjet);
+		ArrayList<Tache> tachesCalculer = new ArrayList<Tache>();
 
-		for (int i = 0; i < toutesTaches.size(); i++) {
-			toutesTaches.get(i).trouverDatePlusTot();
-		}
-		// pour la derniere taches d'un projet la date au plus tot et au plus tard doivent être égale
-		FinDeProjet.setDatePlusTard(FinDeProjet.getDatePlusTot().getHeures());
-		for (int i = toutesTaches.size() - 1; i >= 0; i--) {
-			toutesTaches.get(i).trouverDatePlusTard();
-
-		}
-
-		for (Tache duProjet : toutesTaches) {
-			duProjet.trouverMargeLibre();
-			duProjet.trouverMargeTotale();
-		}
-
-	}
-
-	/**
-	 * Ordonne les taches du projet de telle sorte a ce que lorsqu'une
-	 * taches calcule ses dates au plus tot et au plus tard , la tache précédente 
-	 * est été calculer .
-	 * @return La nouvelles liste des taches ordonner
-	 */
-	public ArrayList<Tache> ordonnerTaches() {
-		ArrayList<Tache> filtre = new ArrayList<Tache>();
-		ArrayList<Tache> tachesSuivantes
-		= getTachesSuivantes(filtre);
-
-		while (tachesSuivantes.size() != 0) {
-
-			for (int calculDate = 0;
-					calculDate < tachesSuivantes.size();
-					calculDate++) {
-				
-				setEvenements(tachesSuivantes);
-				filtre.add(tachesSuivantes.get(calculDate));
-
+		for (int i = 0; tachesCalculer.size() != toutesTaches.size(); i++) {
+			Tache courante = toutesTaches.get(i % toutesTaches.size());
+			if (!tachesCalculer.contains(courante) &&  courante.isPredecesseursCalculer()) {
+				courante.trouverDatePlusTot();
+				tachesCalculer.add(courante);
 			}
-
-			tachesSuivantes
-			= getTachesSuivantes(tachesSuivantes);
-
+		}
+		
+		
+		finProjet.setDatePlusTard((int)finProjet.getEvenementOrigine().getDatePlusTot());
+		tachesCalculer.clear();
+		
+		finProjet.trouverDatePlusTard();
+		
+		for (Tache aCalculer : toutesTaches) {
+			aCalculer.trouverMargeLibre();
+			aCalculer.trouverMargeTotale();
 		}
 
-		return filtre;
 	}
+
+	
 
 
 	/**
@@ -112,14 +97,9 @@ public class Projet implements Serializable {
 					aTester.setEvenementOrigine(modele.getEvenementOrigine());
 					aRetirer.add(aTester);
 				}
-
-			}
-			
+			}	
 			copie.removeAll(aRetirer);
 		}
-
-
-
 	}
 
 
@@ -130,6 +110,7 @@ public class Projet implements Serializable {
 	 * des autres taches
 	 * Cette liste sera utiliser pour ajouter les bonne taches precedante a
 	 * La tache 'FinDeProjet'
+	 * 
 	 * @return la liste des dernieres taches du projet
 	 */
 	public ArrayList<Tache> getTacheFinales() {
@@ -148,27 +129,7 @@ public class Projet implements Serializable {
 	}
 
 
-
-
-	/**
-	 * @param tachesPrecedentes un ensemble de tache servant de filtre
-	 * @return Un enssemble de tache ou chaque tache a un ensemble de
-	 * tache prealable qui est comprit dans le filtre.
-	 * Ou dans le cas ou le filtre est un ensemble vide
-	 * renvoie les taches qui n'ont pas de tache prealable
-	 */
-	public ArrayList<Tache> getTachesSuivantes(ArrayList<Tache> tachesPrecedentes) {
-		ArrayList<Tache> tachesTrouvees = new ArrayList<Tache>();
-		for (int tachesATester = 0;
-				tachesATester < toutesTaches.size();
-				tachesATester++) {
-			if (toutesTaches.get(tachesATester).verifierPredecesseurs(tachesPrecedentes)) {
-				tachesTrouvees.add(toutesTaches.get(tachesATester));
-			}
-		}
-
-		return tachesTrouvees;
-	}
+	
 
 	
 	
@@ -204,13 +165,23 @@ public class Projet implements Serializable {
 		return toutesTaches.size();
 	}
 
+	/**
+	 * Permet d'ajouter une nouvelle tache au projet
+	 * @param aAjouter Tache à ajouter.
+	 */
 	public void addTache(Tache aAjouter) {
 		this.toutesTaches.add(aAjouter);
 	}
 
+	/**
+	 * Permet de retirer une tache du projet
+	 * @param aRetirer tache à retirer
+	 */
 	public void retirerTache(Tache aRetirer) {
 		this.toutesTaches.remove(aRetirer);
+		//TODO Vérifier qu'elle n'est pas utilisé en tache précédante
 	}
+
 
 	public ArrayList<Tache> getToutesTaches() {
 		return toutesTaches;
@@ -223,5 +194,6 @@ public class Projet implements Serializable {
 	public String getDescription() {
 		return description;
 	}
+
 
 }

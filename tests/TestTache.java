@@ -10,6 +10,9 @@ import exception.CycleException;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * Tests de {@link objets.Tache}
+ */
 public class TestTache {
 
 	/**********************             JEUX DE DONNEES              **********************/
@@ -55,7 +58,11 @@ public class TestTache {
 
 
 	private Tache[] donneesExploitable;
+	
 	/**
+	 * 
+     * Tests de {@link objets.Tache#Tache(String, String, Duree)}
+     *
 	 * @param jeuDeDonnees choix du jeu de donner relatif a l'instance
 	 *                     de l'objet
 	 * @param indiceDependance choix des dependance entre les taches
@@ -79,9 +86,12 @@ public class TestTache {
 
 
 	/**
+	 * 
+     * Tests de {@link objets.Tache#trouverDatePlusTot()}
+     *
 	 * @param exceptedEarliestDate tableau de resultat attendu a comparer avec les calculs
 	 */
-	protected void testFindEarliestDate(int[] exceptedEarliestDate) {
+	protected void testTrouverDatePlusTot(int[] exceptedEarliestDate) {
 		for (Tache t : donneesExploitable) {
 			t.setEvenementOrigine(new Evenement());
 		}
@@ -96,26 +106,10 @@ public class TestTache {
 
 
 
+
 	/**
-	 * @param expectedForHasTheseConditions tableau de resultat a comparer
-	 * @param contenueFiltre tableau interpreter pour ajouter des Tache dans la variable 'conditions'
-	 */ 
-	protected void testVerifierCondition(boolean[] expectedForHasTheseConditions, int[] contenueFiltre) {
-
-		ArrayList<Tache> conditions = new ArrayList<Tache>();
-		for (int i = 0; i < contenueFiltre.length; i++) {
-
-			conditions.add(donneesExploitable[contenueFiltre[i]]);
-		}
-		for (int i = 0; i < expectedForHasTheseConditions.length; i++) {
-			if (expectedForHasTheseConditions[i] != donneesExploitable[i].verifierPredecesseurs(conditions)) {
-				throw new EchecTest("Echec verifierPredecesseurs : test no " + i);
-			}
-
-		}
-	}
-
-
+	 * Tests de {@link objets.Tache#detectionCircuit(Tache)}
+	 */
 	protected void testCycle() {
 
 
@@ -126,6 +120,12 @@ public class TestTache {
 		}
 
 	}
+
+
+
+	/**
+	 * Tests de {@link objets.Tache#addTachePrecedente(Tache)}
+	 */
 
 	protected void testAjoutTachePrealableExistante() {
 		try {

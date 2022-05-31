@@ -64,7 +64,7 @@ public class Tests {
      * Lancement de tout les tests unitaires :
      *  - Test du constructeur de 'Duree'
      *  - Test de la conversion de 'Duree' en String
-     *  - Test de la conversion de 'Duree' en differentes unite de temp
+     *  - Test de la conversion de 'Duree' en differentes unite de temps
      *  - Test pour trouver la date au plus tot d une 'Tache'
      *  - Test pour trouver les predecesseur d une Tache dans un enssemble
      *  - Test pour la detection de cycle lors d'ajout d'une tache prealable a une autre
@@ -98,20 +98,9 @@ public class Tests {
 
         try {
             TestTache testTrouverDatePlusTot = new TestTache(0,0);
-            testTrouverDatePlusTot.testFindEarliestDate(RESULTATSATTENDU_CALCUL_DATE_PLUS_TOT);
+            testTrouverDatePlusTot.testTrouverDatePlusTot(RESULTATSATTENDU_CALCUL_DATE_PLUS_TOT);
             
             System.out.println("Test trouverDatePlusTot : OK!");
-        } catch (EchecTest e) {
-            System.out.println(e.getMessage());
-        }
-        try {
-            TestTache testVerifPredecesseurs = new TestTache(0,0);
-            testVerifPredecesseurs.testVerifierCondition(RESULTATS_ATTENDU_VERIF_CONDITIONS[0],CONTENUE_DES_CONDITIONS[0]);
-            testVerifPredecesseurs.testVerifierCondition(RESULTATS_ATTENDU_VERIF_CONDITIONS[1],CONTENUE_DES_CONDITIONS[1]);
-            testVerifPredecesseurs.testVerifierCondition(RESULTATS_ATTENDU_VERIF_CONDITIONS[2],CONTENUE_DES_CONDITIONS[2]);
-            testVerifPredecesseurs.testVerifierCondition(RESULTATS_ATTENDU_VERIF_CONDITIONS[3],CONTENUE_DES_CONDITIONS[3]);
-
-            System.out.println("Test verifierPredecesseurs : OK!");
         } catch (EchecTest e) {
             System.out.println(e.getMessage());
         }
@@ -122,16 +111,19 @@ public class Tests {
         } catch (EchecTest e) {
             System.out.println(e.getMessage());
         }
-        TestProjet test = new TestProjet(1, 1);
-//        test.test();
-//        try {
-//            TestTache prealable = new TestTache(0,0);
-//            prealable.testAjoutTachePrealableExistante();
-//        } catch (EchecTest e) {
-//            System.out.println(e.getMessage());
-//        }
 
-        test.sauvegarder();
+        
+        try {
+            TestTache prealable = new TestTache(0,0);
+            prealable.testAjoutTachePrealableExistante();
+        } catch (EchecTest e) {
+            System.out.println(e.getMessage());
+        }
+
+        TestProjet test1 = new TestProjet(1, 1);
+        test1.sauvegarder();
+        TestProjet test = new TestProjet(2, 2);
+        test.test();
 
 
     }
