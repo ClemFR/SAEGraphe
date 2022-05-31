@@ -10,15 +10,25 @@ import java.util.Scanner;
 
 import static gui.MenuRacine.selecteur;
 
+/**
+ * Gère l'édition d'un projet chargé préalablement
+ * @author Clement L. & Eleanor M. & Charlie S-B & Guillaume M.
+ */
 public class MenuEditionProjet {
 
     private Projet projetActuel;
     private boolean projetModifie = false;
 
+    /**
+     * @param projetActuel Projet voulant être modifié
+     */
     public MenuEditionProjet(Projet projetActuel) {
         this.projetActuel = projetActuel;
     }
 
+    /**
+     * Affiche le menu d'édition pour le projet actuellement chargé
+     */
     public void afficher() {
         boolean exit = false;
         int selection;
@@ -42,14 +52,17 @@ public class MenuEditionProjet {
                     System.out.println("Entrez la description de la tache : ");
                     String description = entree.nextLine();
                     do {
-                        System.out.println("Entrez la durée de la tache (entier) en H: ");
+                        System.out.println("Entrez la durée de la tache (entier) "
+                                          + "en H : ");
                         if (!entree.hasNextInt()) {
                             entree.nextLine();
                         }
                     } while (!entree.hasNextInt());
 
                     int duree = entree.nextInt();
-                    new MenuEditionTache(projetActuel, new Tache(nom, description, new Duree(duree))).afficher();
+                    new MenuEditionTache(projetActuel,
+                                         new Tache(nom, description, new Duree(duree)))
+                                            .afficher();
                     projetModifie = true;
                     System.out.println("");
                     break;
@@ -63,7 +76,8 @@ public class MenuEditionProjet {
                     }
                     System.out.print("Entrez le numero de la tache a modifier : ");
                     tacheSelectionnee = selecteur(1, taches.size());
-                    new MenuEditionTache(projetActuel, taches.get(tacheSelectionnee - 1)).afficher();
+                    new MenuEditionTache(projetActuel,
+                                         taches.get(tacheSelectionnee - 1)).afficher();
                     projetModifie = true;
                     System.out.println("");
                     break;
@@ -93,11 +107,13 @@ public class MenuEditionProjet {
                     System.out.print("Entrez le nom du fichier : ");
                     String nomFichier = entree.nextLine();
                     try {
-                        File sauvegarde = new File(MenuRacine.PATH_PROJETS + nomFichier + ".ser");
+                        File sauvegarde = new File(MenuRacine.PATH_PROJETS
+                                                  + nomFichier + ".ser");
                         if (sauvegarde.exists()) {
                             String reponse;
                             do {
-                                System.out.print("Le fichier existe déjà, voulez-vous le remplacer ? (o/n) : ");
+                                System.out.print("Le fichier existe déjà, voulez-vous le "
+                                                + "remplacer ? (o/n) : ");
                                 reponse = entree.nextLine();
                             } while (!(reponse.equals("o") || reponse.equals("n")));
 

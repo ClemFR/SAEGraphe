@@ -5,10 +5,23 @@ import objets.Projet;
 import java.io.*;
 import java.util.Scanner;
 
+/**
+ * Menu principal de gestion de projet. Permet de charger un projet existant ou de créer
+ * un nouveau projet.
+ * @author Clement L. & Eleanor M. & Charlie S-B & Guillaume M.
+ */
 public class MenuRacine {
 
-    public static final String PATH_PROJETS = System.getProperty("user.dir") + "\\projets\\";
+    /**
+     * Chemins du dossier contant les fichiers de sauvegarde
+     */
+    public static final String PATH_PROJETS = System.getProperty("user.dir")
+                                              + "\\projets\\";
 
+    /**
+     * Affichage des commandes de base du logiciel.
+     * @param args non utilisé
+     */
     public static void main(String[] args) {
         Scanner entree = new Scanner(System.in);
         boolean exit = false;
@@ -18,7 +31,8 @@ public class MenuRacine {
         File dossierProjets = new File(PATH_PROJETS);
         if (!dossierProjets.exists()) {
             dossierProjets.mkdir();
-            System.out.println("Le dossier de sauvegarde des projets n'existait pas, il a été créé.");
+            System.out.println("Le dossier de sauvegarde des projets n'existait pas, "
+                              + "il a été créé.");
         }
 
         while (!exit) {
@@ -50,13 +64,15 @@ public class MenuRacine {
                     } else {
 
                         for (int i = 0; i < listeFichiers.length; i++) {
-                            System.out.println((i + 1) + " - " + listeFichiers[i].getName());
+                            System.out.println((i + 1) + " - "
+                                              + listeFichiers[i].getName());
                         }
 
                         selection = selecteur(1, listeFichiers.length);
 
                         try {
-                            FileInputStream fis = new FileInputStream(listeFichiers[selection - 1]);
+                            FileInputStream fis = new FileInputStream(
+                                                      listeFichiers[selection - 1]);
                             ObjectInputStream ois = new ObjectInputStream(fis);
 
                             Projet p = (Projet) ois.readObject();
@@ -85,7 +101,8 @@ public class MenuRacine {
         Scanner entree = new Scanner(System.in);
         int selection = borneMin - 1;
         do {
-            System.out.print("Veuillez effectuer un choix (" + borneMin + " - " + borneMax + ") : ");
+            System.out.print("Veuillez effectuer un choix (" + borneMin + " - "
+                            + borneMax + ") : ");
             if (entree.hasNextInt()) {
                 selection = entree.nextInt();
             } else {

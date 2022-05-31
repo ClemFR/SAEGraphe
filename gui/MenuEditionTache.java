@@ -10,6 +10,7 @@ import static gui.MenuRacine.selecteur;
 
 /**
  * Gère l'édition d'une tache sélectionnée préalablement
+ * @author Clement L. & Eleanor M. & Charlie S-B & Guillaume M.
  */
 public class MenuEditionTache {
 
@@ -26,6 +27,9 @@ public class MenuEditionTache {
         this.tacheActuelle = tacheActuelle;
     }
 
+    /**
+     * Affiche le menu d'édition pour la tache actuellement sélectionnée
+     */
     public void afficher() {
         boolean exit = false;
         int selection;
@@ -76,7 +80,8 @@ public class MenuEditionTache {
                     break;
 
                 case 5:
-                    System.out.println(" --- Affichage des caractéristiques de la tache ---");
+                    System.out.println(" --- Affichage des caractéristiques de la tache "
+                                      + "---");
                     System.out.println("Nom : " + tacheActuelle.getNom());
                     System.out.println("Description : " + tacheActuelle.getDescription());
                     System.out.println("");
@@ -116,14 +121,18 @@ public class MenuEditionTache {
 
                     if (toutesTaches.size() > 0) {
                         for (int i = 0; i < toutesTaches.size(); i++) {
-                            System.out.println((i + 1) + " - " + toutesTaches.get(i).getNom());
+                            System.out.println((i + 1) + " - "
+                                              + toutesTaches.get(i).getNom());
                         }
-                        System.out.print("Entrez le numero de la tache a ajouter en prédécesseur : ");
+                        System.out.print("Entrez le numero de la tache a ajouter en "
+                                        + "prédécesseur : ");
 
                         tacheSelectionnee = selecteur(1, toutesTaches.size());
-                        tacheActuelle.addTachePrecedente(toutesTaches.get(tacheSelectionnee - 1));
+                        tacheActuelle.addTachePrecedente(
+                                      toutesTaches.get(tacheSelectionnee - 1));
                     } else {
-                        System.out.println("Il n'y a aucune tache disponible pour ajouter comme prédécesseur");
+                        System.out.println("Il n'y a aucune tache disponible pour ajouter"
+                                          + " comme prédécesseur");
                     }
                     System.out.println("");
                     break;
@@ -133,14 +142,18 @@ public class MenuEditionTache {
                     ArrayList<Tache> predecesseurs = tacheActuelle.getPredecesseurs();
                     if (predecesseurs.size() > 0) {
                         for (int i = 0; i < predecesseurs.size(); i++) {
-                            System.out.println((i + 1) + " - " + predecesseurs.get(i).getNom());
+                            System.out.println((i + 1) + " - "
+                                              + predecesseurs.get(i).getNom());
                         }
-                        System.out.print("Entrez le numero de la tache a supprimer en prédécesseur : ");
+                        System.out.print("Entrez le numero de la tache a supprimer en "
+                                        + "prédécesseur : ");
 
                         tacheSelectionnee = selecteur(1, predecesseurs.size());
-                        tacheActuelle.retirerTachePrecedente(predecesseurs.get(tacheSelectionnee - 1));
+                        tacheActuelle.retirerTachePrecedente(
+                                      predecesseurs.get(tacheSelectionnee - 1));
                     } else {
-                        System.out.println("Il n'y a aucune tache disponible à supprimer comme prédécesseur");
+                        System.out.println("Il n'y a aucune tache disponible à supprimer "
+                                          + "comme prédécesseur");
                     }
                     System.out.println("");
                     break;
