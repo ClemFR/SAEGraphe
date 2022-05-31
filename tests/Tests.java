@@ -123,13 +123,15 @@ public class Tests {
             System.out.println(e.getMessage());
         }
         TestProjet test = new TestProjet(1, 1);
-        test.test();
-        try {
-            TestTache prealable = new TestTache(0,0);
-            prealable.testAjoutTachePrealableExistante();
-        } catch (EchecTest e) {
-            System.out.println(e.getMessage());
-        }
+//        test.test();
+//        try {
+//            TestTache prealable = new TestTache(0,0);
+//            prealable.testAjoutTachePrealableExistante();
+//        } catch (EchecTest e) {
+//            System.out.println(e.getMessage());
+//        }
+
+        test.sauvegarder();
 
 
     }

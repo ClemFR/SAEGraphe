@@ -1,5 +1,6 @@
 package objets;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -10,7 +11,7 @@ import java.util.ArrayList;
  *         clement laurie , Diego Iglesias , Medard Guillaume
  *
  */
-public class Projet {
+public class Projet implements Serializable {
 
 	private String nom;
 	private String description;
@@ -209,6 +210,18 @@ public class Projet {
 
 	public void retirerTache(Tache aRetirer) {
 		this.toutesTaches.remove(aRetirer);
+	}
+
+	public ArrayList<Tache> getToutesTaches() {
+		return toutesTaches;
+	}
+
+	public String getNom() {
+		return nom;
+	}
+
+	public String getDescription() {
+		return description;
 	}
 
 }

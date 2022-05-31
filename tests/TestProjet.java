@@ -7,6 +7,8 @@ import objets.Tache;
 import objets.Duree;
 
 
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import exception.CycleException;
@@ -103,4 +105,15 @@ public class TestProjet {
     	System.out.println(projet.afficherTaches());
     }
 
+    public void sauvegarder() {
+        try {
+            FileOutputStream fichier = new FileOutputStream("projet.ser");
+            ObjectOutputStream oos = new ObjectOutputStream(fichier);
+            oos.writeObject(projet);
+            oos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 }

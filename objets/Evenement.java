@@ -1,4 +1,7 @@
 package objets;
+
+import java.io.Serializable;
+
 /**
  * Evenement d'origine d'une taches un meme evenement peut -être associé
  * a plusieur taches.
@@ -6,7 +9,7 @@ package objets;
  *         clement laurie , Diego Iglesias , Medard Guillaume
  *
  */
-public class Evenement {
+public class Evenement implements Serializable {
 	
 	
 	private Duree datePlusTot;

@@ -1,6 +1,7 @@
 package objets;
 import exception.CycleException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
@@ -16,7 +17,7 @@ import java.util.ArrayList;
  *         clement laurie , Diego Iglesias , Medard Guillaume
  *
  */
-public class Tache {
+public class Tache implements Serializable {
 	private ArrayList<Tache> predecesseurs = new ArrayList<Tache>();
 
 	public Duree dureeTache;
@@ -225,6 +226,13 @@ public class Tache {
 		predecesseurs.add(prealable);
 	}
 
+	public void retirerTachePrecedente(Tache aRetirer) {
+		if (!predecesseurs.contains(aRetirer)) {
+			throw new IllegalArgumentException("Cette tâche n'est pas préalable");
+		}
+		predecesseurs.remove(aRetirer);
+	}
+
 
 	public Duree getDatePlusTot() {
 		return origine.getDatePlusTot();
@@ -276,14 +284,27 @@ public class Tache {
 		return this.nom;
 	}
 
+	public void setNom(String nom) {this.nom = nom;}
+
 
 	public int getDuree() {
 		return dureeTache.getHeures();
 	}
 
+	public void setDuree(int duree) {
+		this.dureeTache.setHeures(duree);
+	}
 
 
 	public ArrayList<Tache> getPredecesseurs() {
 		return predecesseurs;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description){
+		this.description = description;
 	}
 }
