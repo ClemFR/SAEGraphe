@@ -1,21 +1,44 @@
 package objets;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Evenement {
+/**
+ * Evenement d'origine d'une taches un meme evenement peut -être associé
+ * a plusieur taches.
+ * @author Eleanor Mourgue , Charlie Sarrato-Boudet , 
+ *         clement laurie , Diego Iglesias , Medard Guillaume
+ *
+ */
+public class Evenement implements Serializable {
 	
+	private double datePlusTot;
+
+	private double datePlusTard;
 	
-	private Duree datePlusTot = new Duree(0);
-	private Duree auPlusTard = new Duree(0);
-	private Duree margeLibre = new Duree(0);
-	private Duree margeTotale = new Duree(0);
 	
 	public Evenement() {
+		//Double.NaN --> Date pas encore calculée
+		datePlusTot = Double.NaN;
+		datePlusTard = Double.NaN;
 		
 	}
 	
-	public int getDatePlusTot() {
-		return this.datePlusTot.getHeures();
+	public double getDatePlusTot() {
+		return datePlusTot;
 	}
+	public double getDatePlusTard() {
+		return datePlusTard;
+	}
+	
+
+	public void setDatePlusTot(int duree) {
+		datePlusTot = duree;
+	}
+
+	public void setDatePlusTard(int duree) {
+		datePlusTard = duree;
+	}
+
+	
 	
 }

@@ -9,7 +9,7 @@ import static outils.Outillage.AssurerEgaliteDouble;
 import exception.EchecTest;
 import objets.Duree;
 /**
- * Teste la classe Duree.
+ * Tests unitaires de la classe Duree.
  */
 public class TestDuree {
 
@@ -36,7 +36,9 @@ public class TestDuree {
 
     /**********************             RESULTATS ATTENDUES             **********************/
 
-    
+    /**
+     * Tests de {@link objets.Duree#Duree(double, double, int)}
+     */
     public void testConstructor () {
         
 
@@ -51,6 +53,9 @@ public class TestDuree {
         
     }
 
+    /**
+     * Tests de {@link objets.Duree#toString()}
+     */
     public void testToString(String[] resultatsAttendus) {
         
 
@@ -61,7 +66,9 @@ public class TestDuree {
         }
     }
 
-    
+    /**
+     * Tests de {@link objets.Duree#getDuree(char)}
+     */
     public void testGetDuree(double[][] expectedResultForGetDuree) {
         
 

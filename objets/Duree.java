@@ -4,6 +4,8 @@
 
 package objets;
 
+import java.io.Serializable;
+
 /**
  * Gestion de duréees.
  * Une durée est stockée sous la forme d'un entier positif representant un nombre d'heures.
@@ -25,7 +27,7 @@ package objets;
  * Aucun nombre fourni pour la creation d'une duree ne peut etre negatif.
  * La duree peut etre affichee en heures, jour, semaine.
  */
-public class Duree {
+public class Duree implements Serializable {
 
     private int heures;
 

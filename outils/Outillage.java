@@ -2,6 +2,9 @@ package outils;
 
 import exception.EchecTest;
 
+/**
+ * Vérifie que deux résultats soient égaux sous une certaine précision
+ */
 public class Outillage {
 
 	
