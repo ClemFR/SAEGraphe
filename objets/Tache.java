@@ -3,6 +3,7 @@ import exception.CycleException;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 /**
@@ -182,8 +183,8 @@ public class Tache {
 		StringBuilder message = new StringBuilder();
 
 		message.append(nom + " :\nDuree : " + dureeTache + "\n"
-				+ "Date au plus tot : " + getDatePlusTot() + "\n"
-				+ "Date au plus tard : " + getDatePlusTard() + "\n"
+				+ "Date au plus tot : " + (getDatePlusTot() == null ? "date non calculée" :  getDatePlusTot())  + "\n"
+				+ "Date au plus tard : " + (getDatePlusTard() == null ? "date non calculée" :  getDatePlusTard()) + "\n"
 				+ "Marge Libre : " + margeLibre + "\n"
 				+ "Marge Totale : " + margeTotale + "\n"
 				+ description + "\nTache Prealable :");
@@ -257,12 +258,20 @@ public class Tache {
 
 	
 	public Duree getDatePlusTot() {
-		return new Duree((int) origine.getDatePlusTot());
+		if (origine != null) {
+			return new Duree((int) origine.getDatePlusTot());
+		} else {
+			return null;
+		}
 	}
 
 
 	public Duree getDatePlusTard() {
-		return new Duree((int) origine.getDatePlusTard());
+		if (origine != null) {
+			return new Duree((int) origine.getDatePlusTard());
+		} else {
+			return null;
+		}
 	}
 
 

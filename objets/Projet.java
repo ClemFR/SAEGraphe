@@ -73,7 +73,6 @@ public class Projet {
 			int duree = Integer.parseInt(lignes[placementTache + 2]);
 			toutesTaches.add(new Tache (nomTache, descriptionTache, new Duree(duree)));
 		}
-		System.out.println(toutesTaches.size());
 
 		/* mise en place des taches antécédentes */
 		for (int tacheActuelle = 1; tacheActuelle <= nbreTaches; tacheActuelle++) {

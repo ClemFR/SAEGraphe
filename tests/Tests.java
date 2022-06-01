@@ -121,12 +121,10 @@ public class Tests {
         }
 
         TestProjet test1 = new TestProjet(1, 1);
-<<<<<<< HEAD
-        test1.sauvegarder();
-=======
+
         //test1.sauvegarder();
         test1.charger();
->>>>>>> master
+
         TestProjet test = new TestProjet(2, 2);
         test.test();
 

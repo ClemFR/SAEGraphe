@@ -8,7 +8,7 @@ import java.util.Scanner;
 /**
  * Menu principal de gestion de projet. Permet de charger un projet existant ou de créer
  * un nouveau projet.
- * @author Clement L. & Eleanor M. & Charlie S-B & Guillaume M.
+ * @author Clement L. & Eleanor M. & Charlie S-B. & Guillaume M. & Diego I.
  */
 public class MenuRacine {
 
@@ -23,7 +23,6 @@ public class MenuRacine {
      * @param args non utilisé
      */
     public static void main(String[] args) {
-        Scanner entree = new Scanner(System.in);
         boolean exit = false;
         int selection;
 
@@ -44,10 +43,9 @@ public class MenuRacine {
             switch (selection) {
                 case 1:
                     System.out.println(" --- Creation d'un projet ---");
-                    System.out.println("Entrez le nom du projet : ");
-                    String nom = entree.next();
-                    System.out.println("Entrez la description du projet : ");
-                    String description = entree.next();
+                    String nom = saisieTexte("Entrez le nom du projet : ");
+                    String description = saisieTexte("Entrez la description du projet : ");
+
                     Projet projet = new Projet(nom, description);
                     new MenuEditionProjet(projet).afficher();
                     System.out.println("");
@@ -69,22 +67,11 @@ public class MenuRacine {
                         }
 
                         selection = selecteur(1, listeFichiers.length);
-
                         try {
-                            FileInputStream fis = new FileInputStream(
-                                                      listeFichiers[selection - 1]);
-                            ObjectInputStream ois = new ObjectInputStream(fis);
-
-                            Projet p = (Projet) ois.readObject();
-                            ois.close();
-                            new MenuEditionProjet(p).afficher();
-
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
+                            Projet projetCharge = new Projet(listeFichiers[selection - 1]);
+                            new MenuEditionProjet(projetCharge).afficher();
                         } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (ClassNotFoundException e) {
-                            e.printStackTrace();
+                            System.out.println("ERREUR! Le fichier n'a pas pu etre ouvert");
                         }
                     }
                     System.out.println("");
@@ -111,5 +98,22 @@ public class MenuRacine {
         } while (selection < borneMin || selection > borneMax);
         System.out.println("");
         return selection;
+    }
+
+    public static String saisieTexte(String message) {
+        Scanner entree = new Scanner(System.in);
+        System.out.print(message);
+        String saisie = entree.nextLine();
+        return saisie;
+    }
+
+    public static int saisieEntier(String message) {
+        Scanner entree = new Scanner(System.in);
+        do {
+            System.out.print(message);
+        } while (!entree.hasNextInt());
+        int saisie = entree.nextInt();
+        entree.nextLine();
+        return saisie;
     }
 }
