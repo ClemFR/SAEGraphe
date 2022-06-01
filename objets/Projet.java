@@ -63,10 +63,12 @@ public class Projet implements Serializable {
 		tachesCalculer.clear();
 		
 		finProjet.trouverDatePlusTard();
-		
+
 		for (Tache aCalculer : toutesTaches) {
+			
 			aCalculer.trouverMargeLibre();
 			aCalculer.trouverMargeTotale();
+			
 		}
 
 	}

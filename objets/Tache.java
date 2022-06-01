@@ -26,8 +26,8 @@ public class Tache implements Serializable {
 	
 	// Evenement d'origine d'une tache par rapport a la representation d'un diagramme pertt
 	private Evenement origine;
-	private Duree margeLibre;
-	private Duree margeTotale;
+	private double margeLibre;
+	private double margeTotale;
 
 	
 	
@@ -43,8 +43,8 @@ public class Tache implements Serializable {
 		this.nom = nom;
 		this.description = description;
 		this.origine = null;
-		margeLibre = new Duree(0);
-		margeTotale = new Duree(0);
+		margeLibre = Double.NaN;
+		margeTotale = Double.NaN;
 	}
 
 	
@@ -87,12 +87,13 @@ public class Tache implements Serializable {
 	 */
 	public void trouverMargeLibre() {
 		int total;
-		Tache aComparer;
-		for (int i = 0; i < predecesseurs.size(); i++) {
-			aComparer = predecesseurs.get(i);
+		
+		for (Tache aComparer : predecesseurs) {
 			total = getDatePlusTot().getHeures() - aComparer.getDatePlusTot().getHeures()
 					- aComparer.dureeTache.getHeures();
-			aComparer.setMargeLibre(total);
+			if (Double.isNaN(aComparer.margeLibre) ||  total < margeLibre) 
+				aComparer.setMargeLibre(total);
+			
 		}
 	}
 	
@@ -105,12 +106,14 @@ public class Tache implements Serializable {
 	 */
 	public void trouverMargeTotale() {
 		int total;
-		Tache aComparer;
-		for (int i = 0; i < predecesseurs.size(); i++) {
-			aComparer = predecesseurs.get(i);
+		
+		for (Tache aComparer : predecesseurs) {
 			total = getDatePlusTard().getHeures()- aComparer.getDatePlusTot().getHeures()
 					- aComparer.dureeTache.getHeures();
-			aComparer.setMargeTotale(total);
+
+			if (Double.isNaN(aComparer.margeTotale) || total < aComparer.margeTotale) 
+				aComparer.setMargeTotale(total);
+			
 		}
 	}
 
@@ -267,12 +270,12 @@ public class Tache implements Serializable {
 
 
 	public Duree getMargeLibre() {
-		return margeLibre;
+		return new Duree((int)margeLibre);
 	}
 
 
 	public Duree getMargeTotale() {
-		return margeTotale;
+		return new Duree((int)margeTotale);
 	}
 
 	public void setDatePlusTot(int duree) {
@@ -284,11 +287,11 @@ public class Tache implements Serializable {
 	}
 
 	public void setMargeLibre(int duree) {
-		margeLibre.setHeures(duree);
+		margeLibre = duree;
 	}
 
 	public void setMargeTotale(int duree) {
-		margeTotale.setHeures(duree);
+		margeTotale = duree;
 	}
 
 	public Evenement getEvenementOrigine() {
