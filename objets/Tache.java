@@ -1,7 +1,6 @@
 package objets;
 import exception.CycleException;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 
@@ -17,7 +16,7 @@ import java.util.ArrayList;
  *         clement laurie , Diego Iglesias , Medard Guillaume
  *
  */
-public class Tache implements Serializable {
+public class Tache {
 	private ArrayList<Tache> predecesseurs = new ArrayList<Tache>();
 
 	public Duree dureeTache;
