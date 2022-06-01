@@ -1,6 +1,10 @@
 package objets;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 /**
@@ -182,6 +186,46 @@ public class Projet implements Serializable {
 		//TODO Vérifier qu'elle n'est pas utilisé en tache précédante
 	}
 
+
+	public void sauvegarder(File fichierAEnregistrer) throws IOException {
+		ArrayList<Tache> predesseurs;
+
+		FileWriter ecriture = new FileWriter(fichierAEnregistrer, StandardCharsets.UTF_8);
+		ecriture.write(this.nom + "\n");
+		ecriture.write(this.description + "\n\n\n");
+
+		Tache[] aEnregistrer = toutesTaches.toArray(new Tache[0]);
+		for (int i = 0; i < aEnregistrer.length; i++) {
+			predesseurs = aEnregistrer[i].getPredecesseurs();
+
+			ecriture.write(aEnregistrer[i].getNom() + "\n");
+			ecriture.write(aEnregistrer[i].getDescription() + "\n");
+			ecriture.write(aEnregistrer[i].getDuree() + "\n");
+
+			/*
+			 * On enregistre les taches précédentes de la tache en cours. L'enregistrement
+			 * est effectué sous la forme d'un entier qui correspond à l'index de la tache
+			 * dans le fichier. Cet index est identique à l'index de la tache dans le
+			 * tableau aEnregistrer
+			 */
+			if (predesseurs.size() > 0) {
+				String predecesseursAEcrire = "";
+				for (Tache predesseur : predesseurs) {
+					for (int k = 0; k < aEnregistrer.length; k++) {
+						if (predesseur.equals(aEnregistrer[k])) {
+							predecesseursAEcrire += k + " | ";
+						}
+					}
+				}
+				ecriture.write(predecesseursAEcrire
+						       .substring(0, predecesseursAEcrire.length() - 2) + "\n");
+			} else {
+				ecriture.write("\n");
+			}
+			ecriture.write("------" + "\n");
+		}
+		ecriture.close();
+	}
 
 	public ArrayList<Tache> getToutesTaches() {
 		return toutesTaches;
