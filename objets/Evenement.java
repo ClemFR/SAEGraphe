@@ -9,7 +9,7 @@ import java.io.Serializable;
  *         clement laurie , Diego Iglesias , Medard Guillaume
  *
  */
-public class Evenement implements Serializable {
+public class Evenement {
 	
 	private double datePlusTot;
 

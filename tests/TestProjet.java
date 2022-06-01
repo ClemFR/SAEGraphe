@@ -7,9 +7,8 @@ import objets.Tache;
 import objets.Duree;
 
 
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
+import java.io.File;
+import java.io.IOException;
 
 import exception.CycleException;
 
@@ -18,8 +17,8 @@ import exception.CycleException;
  * Tests de {@link objets.Projet}
  */
 public class TestProjet {
-	
-	private Projet projet = new Projet("Test" ,"Test");
+
+	private Projet projet = new Projet("Test" ,"description test");
 	
 	private Duree[] dureesValides = {
             new Duree(       80),
@@ -40,30 +39,30 @@ public class TestProjet {
             new Tache(   "Correction","Correction des points negatifs", dureesValides[4])
         },
         {
-        	new Tache("1","",new Duree(1)),
-        	new Tache("2","",new Duree(2)),
-        	new Tache("3","",new Duree(3)),
-        	new Tache("4","",new Duree(4)),
-        	new Tache("5","",new Duree(5)),
-        	new Tache("6","",new Duree(6)),
-        	new Tache("7","",new Duree(7)),
-        	new Tache("8","",new Duree(8)),
+        	new Tache("t1","d1",new Duree(1)),
+        	new Tache("t2","d2",new Duree(2)),
+        	new Tache("t3","d3",new Duree(3)),
+        	new Tache("t4","d4",new Duree(4)),
+        	new Tache("t5","d5",new Duree(5)),
+        	new Tache("t6","d6",new Duree(6)),
+        	new Tache("t7","d7",new Duree(7)),
+        	new Tache("t8","d8",new Duree(8)),
         },
         {
-        	new Tache("1","",new Duree(1)),
-        	new Tache("2","",new Duree(2)),
-        	new Tache("3","",new Duree(3)),
-        	new Tache("4","",new Duree(4)),
-        	new Tache("5","",new Duree(5)),
-        	new Tache("6","",new Duree(6)),
-        	new Tache("7","",new Duree(7)),
-        	new Tache("8","",new Duree(8)),
-        	new Tache("9","",new Duree(9)),
-        	new Tache("10","",new Duree(10)),
-        	new Tache("11","",new Duree(11)),
-        	new Tache("12","",new Duree(12)),
-        	new Tache("13","",new Duree(13)),
-        	new Tache("14","",new Duree(14)),
+        	new Tache("t1","d1",new Duree(1)),
+        	new Tache("t2","d2",new Duree(2)),
+        	new Tache("t3","d3",new Duree(3)),
+        	new Tache("t4","d4",new Duree(4)),
+        	new Tache("t5","d5",new Duree(5)),
+        	new Tache("t6","d6",new Duree(6)),
+        	new Tache("t7","d7",new Duree(7)),
+        	new Tache("t8","d8",new Duree(8)),
+        	new Tache("t9","d9",new Duree(9)),
+        	new Tache("t10","d10",new Duree(10)),
+        	new Tache("t11","d11",new Duree(11)),
+        	new Tache("t12","d12",new Duree(12)),
+        	new Tache("t13","d13",new Duree(13)),
+        	new Tache("t14","d14",new Duree(14)),
 
         }
             
@@ -111,7 +110,6 @@ public class TestProjet {
     };
 
 
-
     private Tache[] donneesExploitable;
     
     /**
@@ -145,20 +143,31 @@ public class TestProjet {
      * Tests de {@link objets.Projet#afficherTaches()}
      */
     public void test() {
-    	
+
     	projet.calculDesDates();
-    	System.out.println(projet.afficherTaches());
+//    	System.out.println(projet.afficherTaches());
     }
 
     public void sauvegarder() {
-        try {
-            FileOutputStream fichier = new FileOutputStream("projet.ser");
-            ObjectOutputStream oos = new ObjectOutputStream(fichier);
-            oos.writeObject(projet);
-            oos.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+		File chemin = new File("./projets/test.txt");
 
+		if (chemin.exists()) {
+			chemin.delete();
+		}
+
+		try {
+    	    projet.sauvegarder(chemin);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
+
+	public void charger() {
+		File chemin = new File("./projets/test.txt");
+		try {
+			projet = new Projet(chemin);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
