@@ -39,10 +39,11 @@ public class Projet {
 	}
 
 	/**
-	 * Définit un nouveau projet a partir d'un fichier
+	 * Définit un nouveau projet à partir d'un fichier
 	 * @param aCharger le fichier a charger
 	 */
 	public Projet(File aCharger) throws IOException {
+		/* lecture du fichier et mise en memoire */
 		String[] lignes = new String[(int) Files.lines(Path.of(aCharger.getAbsolutePath())).count()];
 		int noLigne;
 		int nbreTaches;
@@ -57,9 +58,11 @@ public class Projet {
 		}
 		br.close();
 
+		/* definition du projet */
 		this.nom = lignes[0];
 		this.description = lignes[1];
 
+		/* definition des taches */
 		nbreTaches = noLigne / 5;
 		for (int i = 1; i <= nbreTaches; i++) {
 			int placementTache = i * 5 - 1;
@@ -71,6 +74,7 @@ public class Projet {
 		}
 		System.out.println(toutesTaches.size());
 
+		/* mise en place des taches antécédentes */
 		for (int tacheActuelle = 1; tacheActuelle <= nbreTaches; tacheActuelle++) {
 			String predecesseur = lignes[tacheActuelle * 5 + 2];
 
