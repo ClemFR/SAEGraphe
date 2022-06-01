@@ -1,10 +1,9 @@
 package objets;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 /**
@@ -15,7 +14,7 @@ import java.util.ArrayList;
  *         clement laurie , Diego Iglesias , Medard Guillaume
  *
  */
-public class Projet implements Serializable {
+public class Projet {
 
 	private String nom;
 	private String description;
@@ -37,6 +36,55 @@ public class Projet implements Serializable {
 		this.description = description;
 		finProjet = new Tache("Fin", "Fin de projet",new Duree(0));
 		toutesTaches = new ArrayList<Tache>();
+	}
+
+	/**
+	 * Définit un nouveau projet a partir d'un fichier
+	 * @param aCharger le fichier a charger
+	 */
+	public Projet(File aCharger) throws IOException {
+		String[] lignes = new String[(int) Files.lines(Path.of(aCharger.getAbsolutePath())).count()];
+		int noLigne;
+		int nbreTaches;
+		toutesTaches = new ArrayList<Tache>();
+
+		FileReader fichier = new FileReader(aCharger);
+		BufferedReader br = new BufferedReader(fichier);
+		noLigne = 0;
+		for (String line = br.readLine(); line != null; line = br.readLine()) {
+			lignes[noLigne] = line;
+			noLigne++;
+		}
+		br.close();
+
+		this.nom = lignes[0];
+		this.description = lignes[1];
+
+		nbreTaches = noLigne / 5;
+		for (int i = 1; i <= nbreTaches; i++) {
+			int placementTache = i * 5 - 1;
+
+			String nomTache = lignes[placementTache];
+			String descriptionTache = lignes[placementTache + 1];
+			int duree = Integer.parseInt(lignes[placementTache + 2]);
+			toutesTaches.add(new Tache (nomTache, descriptionTache, new Duree(duree)));
+		}
+		System.out.println(toutesTaches.size());
+
+		for (int tacheActuelle = 1; tacheActuelle <= nbreTaches; tacheActuelle++) {
+			String predecesseur = lignes[tacheActuelle * 5 + 2];
+
+			if (!predecesseur.isBlank()) {
+				String[] predecesseurs = predecesseur.split("-");
+				for (String s : predecesseurs) {
+					s = s.trim();
+					int indexPredecesseur = Integer.parseInt(s);
+					toutesTaches.get(tacheActuelle - 1).addTachePrecedente(toutesTaches.get(indexPredecesseur));
+				}
+			}
+
+		}
+		finProjet = new Tache("Fin", "Fin de projet",new Duree(0));
 	}
 
 	
@@ -213,7 +261,7 @@ public class Projet implements Serializable {
 				for (Tache predesseur : predesseurs) {
 					for (int k = 0; k < aEnregistrer.length; k++) {
 						if (predesseur.equals(aEnregistrer[k])) {
-							predecesseursAEcrire += k + " | ";
+							predecesseursAEcrire += k + " - ";
 						}
 					}
 				}

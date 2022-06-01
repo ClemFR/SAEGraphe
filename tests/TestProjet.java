@@ -21,7 +21,7 @@ import exception.CycleException;
  */
 public class TestProjet {
 	
-	private Projet projet = new Projet("Test" ,"Test");
+	private Projet projet = new Projet("Test" ,"description test");
 	
 	private Duree[] dureesValides = {
             new Duree(       80),
@@ -165,4 +165,13 @@ public class TestProjet {
 			e.printStackTrace();
 		}
     }
+
+	public void charger() {
+		File chemin = new File("./projets/test.txt");
+		try {
+			projet = new Projet(chemin);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
