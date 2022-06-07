@@ -56,7 +56,7 @@ public class MenuRacine {
                     File chemin = new File(PATH_PROJETS);
                     File[] listeFichiers = chemin.listFiles();
 
-                    if (listeFichiers == null) {
+                    if (listeFichiers.length == 0) {
                         System.out.println("ERREUR! Aucun projet n'a ete trouve");
                         System.out.println("");
                     } else {
@@ -82,6 +82,10 @@ public class MenuRacine {
                     break;
             }
         }
+    }
+
+    private static void charger() {
+
     }
 
     public static int selecteur(int borneMin, int borneMax) {

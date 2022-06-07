@@ -126,6 +126,32 @@ public class Projet {
 
 	}
 
+	/**
+	 * Permet de trouver le chemin critique
+	 */
+	public ArrayList<Tache> getCheminCritique() {
+
+		ArrayList<Tache> cheminCritique = new ArrayList<>();
+		ArrayList<Tache> predecesseurTrouves = new ArrayList<>();
+
+		ArrayList<Tache> trouverCritique = finProjet.getPredecesseurs();
+		while (trouverCritique.size() != 0) {
+
+			for (Tache aTraiter : trouverCritique) {
+				if (aTraiter.getMargeTotale().getHeures() == 0) {
+					if (!cheminCritique.contains(aTraiter)) {
+						cheminCritique.add(aTraiter);
+					}
+				}
+				predecesseurTrouves.addAll(aTraiter.getPredecesseurs());
+			}
+			trouverCritique.removeAll(trouverCritique);
+			trouverCritique.addAll(predecesseurTrouves);
+			predecesseurTrouves.removeAll(predecesseurTrouves);
+		}
+		return cheminCritique;
+	}
+
 	
 
 

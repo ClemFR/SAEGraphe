@@ -1,9 +1,7 @@
 package objets;
 import exception.CycleException;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Objects;
 
 
 /**
@@ -47,10 +45,6 @@ public class Tache {
 		margeLibre = new Duree(0);
 		margeTotale = new Duree(0);
 	}
-
-	
-	
-	
 	
 	
 	/**
@@ -78,11 +72,6 @@ public class Tache {
 
 	}
 	
-	
-	
-	
-	
-	
 	/**
 	 * Trouve les marges Libre des predecesseurs
 	 */
@@ -96,9 +85,6 @@ public class Tache {
 			aComparer.setMargeLibre(total);
 		}
 	}
-	
-	
-	
 	
 	
 	/**
@@ -115,11 +101,6 @@ public class Tache {
 		}
 	}
 
-	
-	
-	
-	
-	
 
 	/**
 	 * Trouve les dates au plus tard des predecesseurs en fonction de la 
@@ -183,8 +164,8 @@ public class Tache {
 		StringBuilder message = new StringBuilder();
 
 		message.append(nom + " :\nDuree : " + dureeTache + "\n"
-				+ "Date au plus tot : " + (getDatePlusTot() == null ? "date non calculée" :  getDatePlusTot())  + "\n"
-				+ "Date au plus tard : " + (getDatePlusTard() == null ? "date non calculée" :  getDatePlusTard()) + "\n"
+				+ "Date au plus tot : " + (origine == null ? "date non calculée" :  getDatePlusTot())  + "\n"
+				+ "Date au plus tard : " + (origine == null ? "date non calculée" :  getDatePlusTard()) + "\n"
 				+ "Marge Libre : " + margeLibre + "\n"
 				+ "Marge Totale : " + margeTotale + "\n"
 				+ description + "\nTache Prealable :");
@@ -258,20 +239,12 @@ public class Tache {
 
 	
 	public Duree getDatePlusTot() {
-		if (origine != null) {
-			return new Duree((int) origine.getDatePlusTot());
-		} else {
-			return null;
-		}
+		return new Duree((int) origine.getDatePlusTot());
 	}
 
 
 	public Duree getDatePlusTard() {
-		if (origine != null) {
-			return new Duree((int) origine.getDatePlusTard());
-		} else {
-			return null;
-		}
+		return new Duree((int) origine.getDatePlusTard());
 	}
 
 

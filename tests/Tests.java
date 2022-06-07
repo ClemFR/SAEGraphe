@@ -120,13 +120,10 @@ public class Tests {
             System.out.println(e.getMessage());
         }
 
-        TestProjet test1 = new TestProjet(1, 1);
-
-        //test1.sauvegarder();
-        test1.charger();
 
         TestProjet test = new TestProjet(2, 2);
         test.test();
+
 
 
     }
