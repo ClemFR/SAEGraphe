@@ -64,8 +64,6 @@ public class TestProjet {
         	new Tache("t11","d12",new Duree(11)),
         	new Tache("t12","d13",new Duree(12)),
         	new Tache("t13","d14",new Duree(13)),
-			//new Tache ("f1", "fictive 1", new Duree(0)),
-			//new Tache ("f2", "fictive 2", new Duree(0))
         },
 		{
 			new Tache("t1", "d1", new Duree(1)),
@@ -164,14 +162,13 @@ public class TestProjet {
      * Tests de {@link objets.Projet#Projet(String, String)}
      * @param jeuDeDonnees choix du jeu de donner relatif a l'instance
      *                     de l'objet
-     * @param indiceDependance choix des dependance entre les taches
      */
-    public TestProjet(int jeuDeDonnees,int indiceDependance) {
+    public TestProjet(int jeuDeDonnees) {
         donneesExploitable = JEUX_DE_DONNEES[jeuDeDonnees];
-        for (int i = 0; i < listeContraintes[indiceDependance].length; i++) {
+        for (int i = 0; i < listeContraintes[jeuDeDonnees].length; i++) {
             try  {
-                donneesExploitable[listeContraintes[indiceDependance][i][0]]
-                .addTachePrecedente(donneesExploitable[listeContraintes[indiceDependance][i][1]]);
+                donneesExploitable[listeContraintes[jeuDeDonnees][i][0]]
+                .addTachePrecedente(donneesExploitable[listeContraintes[jeuDeDonnees][i][1]]);
             } catch (CycleException e ){
                 System.out.println(e.getMessage());
             }

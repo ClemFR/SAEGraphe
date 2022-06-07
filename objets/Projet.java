@@ -7,6 +7,8 @@ import java.nio.file.Path;
 
 import java.util.ArrayList;
 
+import exception.ProjetVideException;
+
 /**
  * Un projet qui possède un corps de taches a ordennancer 
  * ainssi que taches spéciale permettant d'estimer la date de fin 
@@ -93,9 +95,15 @@ public class Projet {
 
 	/**
 	 * Ordonne les calcules de toutes les dates/marges des taches du projet
+	 * @throw ProjetVideException si le projet n'a aucune tache
 	 */
-	public void calculDesDates() {
-
+	public void calculDesDates()throws ProjetVideException {
+		
+		if (isEmpty()) {
+			throw new ProjetVideException("Aucune taches n'a été trouvé");
+		}
+		
+		
 		setEvenements(toutesTaches);
 		finProjet.setEvenementOrigine(new Evenement());
 		for (Tache finale : getTacheFinales()) {
@@ -125,6 +133,7 @@ public class Projet {
 			aCalculer.trouverMargeTotale();
 			
 		}
+		toutesTaches.remove(finProjet);
 
 	}
 
@@ -224,15 +233,21 @@ public class Projet {
 		for (int tache = 0; tache < toutesTaches.size(); tache++) {
 			message.append("\n - " + toutesTaches.get(tache).getNom());
 		}
+		message.append(finProjet);
 		message.append("\n");
 		return message.toString();
 	}
 
 	/**
+	 * @throw ProjetVideException si le projet n'a aucune tache
 	 * @return Un message affichant precisement toutes les taches
 	 * et leurs caracteristiques du projet
 	 */
 	public String afficherTaches() {
+		if (isEmpty()) {
+			throw new ProjetVideException("Aucune taches n'a été trouvé");
+		}
+		
 		StringBuilder message = new StringBuilder();
 		for (int tache = 0; tache < toutesTaches.size(); tache++) {
 			message.append("\n\n" + toutesTaches.get(tache));
@@ -240,30 +255,9 @@ public class Projet {
 		return message.toString();
 	}
 
-	public Tache getTache(int index) {
-		return toutesTaches.get(index);
-	}
+	
 
-	public int size() {
-		return toutesTaches.size();
-	}
-
-	/**
-	 * Permet d'ajouter une nouvelle tache au projet
-	 * @param aAjouter Tache à ajouter.
-	 */
-	public void addTache(Tache aAjouter) {
-		this.toutesTaches.add(aAjouter);
-	}
-
-	/**
-	 * Permet de retirer une tache du projet
-	 * @param aRetirer tache à retirer
-	 */
-	public void retirerTache(Tache aRetirer) {
-		this.toutesTaches.remove(aRetirer);
-		//TODO Vérifier qu'elle n'est pas utilisé en tache précédante
-	}
+	
 
 
 	public void sauvegarder(File fichierAEnregistrer) throws IOException {
@@ -306,6 +300,25 @@ public class Projet {
 		ecriture.close();
 	}
 
+	
+	/**
+	 * Permet d'ajouter une nouvelle tache au projet
+	 * @param aAjouter Tache à ajouter.
+	 */
+	public void addTache(Tache aAjouter) {
+		this.toutesTaches.add(aAjouter);
+	}
+
+	/**
+	 * Permet de retirer une tache du projet
+	 * @param aRetirer tache à retirer
+	 */
+	public void retirerTache(Tache aRetirer) {
+		this.toutesTaches.remove(aRetirer);
+		//TODO Vérifier qu'elle n'est pas utilisé en tache précédante
+	}
+	
+	
 	public ArrayList<Tache> getToutesTaches() {
 		return toutesTaches;
 	}
@@ -313,10 +326,22 @@ public class Projet {
 	public String getNom() {
 		return nom;
 	}
-
+	
+	
 	public String getDescription() {
 		return description;
 	}
 
+	public Tache getTache(int index) {
+		return toutesTaches.get(index);
+	}
+
+	public int size() {
+		return toutesTaches.size();
+	}
+	
+	public boolean isEmpty() {
+		return toutesTaches.isEmpty();
+	}
 
 }

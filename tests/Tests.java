@@ -121,7 +121,8 @@ public class Tests {
         }
 
 
-        TestProjet test = new TestProjet(4, 4);
+        // Pour changer de jeu de tests, il suffit de varier la valeur entre 1 et 4
+        TestProjet test = new TestProjet(4);
         test.test();
     }
 }

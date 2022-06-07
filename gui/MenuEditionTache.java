@@ -1,5 +1,7 @@
 package gui;
 
+import exception.CycleException;
+import exception.ProjetVideException;
 import objets.Projet;
 import objets.Tache;
 
@@ -31,6 +33,7 @@ public class MenuEditionTache {
      * Affiche le menu d'édition pour la tache actuellement sélectionnée
      */
     public void afficher() {
+    	
         boolean exit = false;
         int selection;
         Scanner entree = new Scanner(System.in);
@@ -42,9 +45,8 @@ public class MenuEditionTache {
             System.out.println("4 - Modifier la durée");
             System.out.println("5 - Voir les caractéristiques de la tache");
             System.out.println("6 - Quitter");
-            selection = selecteur(1, 6);
 
-            switch(selection) {
+            switch(selecteur(1, 6)) {
                 case 1:
                     System.out.println(" --- Modification des prédécesseurs ---");
                     modificationPredecesseur();
@@ -81,11 +83,7 @@ public class MenuEditionTache {
                     break;
 
                 case 5:
-                    System.out.println(" --- Affichage des caractéristiques de la tache "
-                                      + "---");
-                    System.out.println("Nom : " + tacheActuelle.getNom());
-                    System.out.println("Description : " + tacheActuelle.getDescription());
-                    System.out.println("");
+                	affichageCaracteristique();
                     break;
 
                 case 6:
@@ -96,10 +94,25 @@ public class MenuEditionTache {
             }
         }
     }
-
+    
+    
+    
+    public void affichageCaracteristique() {
+    	System.out.println(" --- Affichage des caractéristiques de la tache "
+    			+ "---");
+    	System.out.println("Nom : " + tacheActuelle.getNom());
+    	System.out.println("Description : " + tacheActuelle.getDescription());
+    	System.out.println("");
+    }
+    
+    
+    
     private void modificationPredecesseur() {
+    	if (projetActuel.size() <= 1) {
+    		throw new ProjetVideException("Il n'existe aucune autre taches ! ");
+    	}
         boolean exit = false;
-        int selection;
+
         int tacheSelectionnee;
         Scanner entree = new Scanner(System.in);
 
@@ -107,9 +120,8 @@ public class MenuEditionTache {
             System.out.println("1 - Ajouter un prédécesseur");
             System.out.println("2 - Supprimer un prédécesseur");
             System.out.println("3 - Quitter");
-            selection = selecteur(1, 3);
 
-            switch(selection) {
+            switch(selecteur(1, 3)) {
                 case 1:
                     System.out.println(" --- Ajout d'un prédécesseur ---");
                     /*
@@ -125,12 +137,17 @@ public class MenuEditionTache {
                             System.out.println((i + 1) + " - "
                                               + toutesTaches.get(i).getNom());
                         }
-                        System.out.print("Entrez le numero de la tache a ajouter en "
+                        System.out.print("Entrez le numéro de la tache a ajouter en "
                                         + "prédécesseur : ");
 
                         tacheSelectionnee = selecteur(1, toutesTaches.size());
-                        tacheActuelle.addTachePrecedente(
-                                      toutesTaches.get(tacheSelectionnee - 1));
+                        try {
+                            tacheActuelle.addTachePrecedente(
+                                    toutesTaches.get(tacheSelectionnee - 1));
+                        } catch (IllegalStateException | CycleException e) {
+                            System.out.println(e.getMessage());
+                        }
+
                     } else {
                         System.out.println("Il n'y a aucune tache disponible pour ajouter"
                                           + " comme prédécesseur");

@@ -17,7 +17,7 @@ public class MenuRacine {
      */
     public static final String PATH_PROJETS = System.getProperty("user.dir")
                                               + "\\projets\\";
-
+    public static final File SAUVEGARDES = new File(PATH_PROJETS);
     /**
      * Affichage des commandes de base du logiciel.
      * @param args non utilisé
@@ -27,9 +27,8 @@ public class MenuRacine {
         int selection;
 
         // Detection si le dossier de sauvegarde des projets existe.
-        File dossierProjets = new File(PATH_PROJETS);
-        if (!dossierProjets.exists()) {
-            dossierProjets.mkdir();
+        if (!SAUVEGARDES.exists()) {
+        	SAUVEGARDES.mkdir();
             System.out.println("Le dossier de sauvegarde des projets n'existait pas, "
                               + "il a été créé.");
         }
@@ -51,29 +50,18 @@ public class MenuRacine {
                     System.out.println("");
                     break;
                 case 2:
-                    System.out.println(" --- Chargement d'un projet ---");
-
-                    File chemin = new File(PATH_PROJETS);
-                    File[] listeFichiers = chemin.listFiles();
-
-                    if (listeFichiers.length == 0) {
-                        System.out.println("ERREUR! Aucun projet n'a ete trouve");
-                        System.out.println("");
-                    } else {
-
-                        for (int i = 0; i < listeFichiers.length; i++) {
-                            System.out.println((i + 1) + " - "
-                                              + listeFichiers[i].getName());
-                        }
-
-                        selection = selecteur(1, listeFichiers.length);
-                        try {
-                            Projet projetCharge = new Projet(listeFichiers[selection - 1]);
-                            new MenuEditionProjet(projetCharge).afficher();
-                        } catch (IOException e) {
-                            System.out.println("ERREUR! Le fichier n'a pas pu etre ouvert");
-                        }
-                    }
+                	System.out.println(" --- Chargement d'un projet ---");
+                	File[] listeFichiers = SAUVEGARDES.listFiles();
+                	for (int i = 0; i < listeFichiers.length; i++) {
+                		System.out.println((i + 1) + " - "
+                				+ listeFichiers[i].getName());
+                	}
+                	try {
+                		Projet selectionner = charger(selecteur(1, listeFichiers.length),listeFichiers);
+                		new MenuEditionProjet(selectionner).afficher();
+                	} catch (IOException e) {
+                		e.printStackTrace();
+                	}
                     System.out.println("");
                     break;
                 case 3:
@@ -84,8 +72,12 @@ public class MenuRacine {
         }
     }
 
-    private static void charger() {
-
+    private static Projet charger(int noFichier, File[] listeFichiers) throws IOException {
+    	
+        if (listeFichiers.length == 0) {
+            throw new FileNotFoundException();
+        }
+		return new Projet(listeFichiers[noFichier - 1]);
     }
 
     public static int selecteur(int borneMin, int borneMax) {

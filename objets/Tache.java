@@ -75,16 +75,9 @@ public class Tache {
 	public void trouverMargeLibre() {
 		int total;
 
-		System.out.println("A partir de " + this.getNom());
-
 		for (Tache aComparer : predecesseurs) {
 			total = getDatePlusTot().getHeures() - aComparer.getDatePlusTot().getHeures()
 					- aComparer.dureeTache.getHeures();
-
-			System.out.println(aComparer.getNom() + " :" );
-			System.out.println(getDatePlusTot().getHeures() + " - " + aComparer.getDatePlusTot().getHeures() + " - " + aComparer.dureeTache.getHeures());
-			System.out.println();
-
 
 			if (Double.isNaN(aComparer.margeLibre) ||  total < margeLibre) 
 				aComparer.setMargeLibre(total);
@@ -233,6 +226,9 @@ public class Tache {
 		
 		if(detectionCircuit(prealable)) {
 			throw new CycleException("Cycle trouve");
+		}
+		if (predecesseurs.contains(prealable)) {
+			throw new IllegalArgumentException("Tache déjà présente");
 		}
 		predecesseurs.add(prealable);
 	}
