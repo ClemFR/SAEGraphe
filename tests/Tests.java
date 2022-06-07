@@ -123,8 +123,5 @@ public class Tests {
 
         TestProjet test = new TestProjet(4, 4);
         test.test();
-
-
-
     }
 }
