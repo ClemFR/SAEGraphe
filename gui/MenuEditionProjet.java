@@ -6,6 +6,7 @@ import objets.Tache;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import static gui.MenuRacine.*;
@@ -38,7 +39,7 @@ public class MenuEditionProjet {
             System.out.println("1 - Créer une tache");
             System.out.println("2 - Modifier une tache");
             System.out.println("3 - Voir les taches");
-            System.out.println("4 - Calculer les dates et les marges");
+            System.out.println("4 - Calculer les dates, les marges et le chemin critique");
             System.out.println("5 - Voir les caractéristiques du projet");
             System.out.println("6 - Sauvegarder");
             System.out.println("7 - Quitter");
@@ -81,6 +82,11 @@ public class MenuEditionProjet {
                     System.out.println(" --- Affichage des taches ---");
 
                     System.out.println(projetActuel.afficherTaches());
+                    System.out.println("--------------");
+                    System.out.println("Le chemin critique est composé des taches "
+                                      + "suivantes :");
+                    afficherCheminCritique();
+                    System.out.println("");
                     break;
 
                 case 4:
@@ -147,6 +153,23 @@ public class MenuEditionProjet {
                     break;
             }
         }
+    }
+
+    private void afficherCheminCritique() {
+        final String SEPARATEUR = " - ";
+        ArrayList<Tache> tachesCritiques = projetActuel.getCheminCritique();
+        String affichage = "";
+
+        if (tachesCritiques.size() == 0) {
+            affichage = "Aucun chemin critique n'a été trouvé";
+        } else {
+            for (Tache aAfficher : tachesCritiques) {
+                affichage += aAfficher.getNom() + SEPARATEUR;
+            }
+            //retrait dernier tiret
+            affichage = affichage.substring(0, affichage.length() - 2);
+        }
+        System.out.println(affichage);
     }
 
     private void sauvegarder(File fichier) throws IOException {

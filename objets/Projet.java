@@ -128,6 +128,7 @@ public class Projet {
 
 	/**
 	 * Permet de trouver le chemin critique
+	 * @return Liste de taches composant le chemin critique
 	 */
 	public ArrayList<Tache> getCheminCritique() {
 
@@ -143,7 +144,11 @@ public class Projet {
 						cheminCritique.add(aTraiter);
 					}
 				}
-				predecesseurTrouves.addAll(aTraiter.getPredecesseurs());
+				for (Tache predecesseur : aTraiter.getPredecesseurs()) {
+					if (!predecesseurTrouves.contains(predecesseur)) {
+						predecesseurTrouves.addAll(aTraiter.getPredecesseurs());
+					}
+				}
 			}
 			trouverCritique.removeAll(trouverCritique);
 			trouverCritique.addAll(predecesseurTrouves);
@@ -208,11 +213,6 @@ public class Projet {
 		}
 		return tachesTrouve;
 	}
-
-
-	
-
-	
 	
 	@Override
 	public String toString() {

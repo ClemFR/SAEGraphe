@@ -73,8 +73,19 @@ public class TestProjet {
 			new Tache("t3", "d3", new Duree(3)),
 			new Tache("t4", "d4", new Duree(4)),
 			new Tache("t5", "d5", new Duree(5)),
-			new Tache("f1", "fictive 1", new Duree(0)),
-			new Tache("f2", "fictive 2", new Duree(0)),
+			new Tache("t6", "d6", new Duree(6)),
+			new Tache("t7", "d7", new Duree(7)),
+			new Tache("t8", "d8", new Duree(8)),
+		},
+		{
+			new Tache("A", "d1", new Duree(1)),
+			new Tache("B", "d2", new Duree(7)),
+			new Tache("C", "d3", new Duree(6)),
+			new Tache("D", "d4", new Duree(5)),
+			new Tache("E", "d5", new Duree(4)),
+			new Tache("F", "d6", new Duree(7)),
+			new Tache("G", "d7", new Duree(15)),
+			new Tache("H", "d8", new Duree(4)),
 		}
 
     };
@@ -118,16 +129,29 @@ public class TestProjet {
 
         },
 		{
+				{1,0},
+				{2,0},
+				{3,1},
+				{4,3},
+				{6,4},
+				{5,2},
+				{5,2},
+				{7,5},
+				{7,6}
 
-			{5, 0},
-			{6, 0},
-			{1, 6},
-			{2, 5},
-			{3, 2},
-			{4, 1},
-			{4, 3}
-
-
+		},
+		{
+				{2,0},
+				{3,0},
+				{2,1},
+				{3,1},
+				{4,1},
+				{7,4},
+				{7,3},
+				{6,0},
+				{6,4},
+				{5,2},
+				{5,3}
 		}
     };
 
