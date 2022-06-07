@@ -75,6 +75,7 @@ public class MenuEditionTache {
                         }
                     } while (!entree.hasNextInt());
                     int duree = entree.nextInt();
+                    entree.nextLine();
                     tacheActuelle.setDuree(duree);
                     System.out.println("");
                     break;

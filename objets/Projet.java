@@ -4,6 +4,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
 import java.util.ArrayList;
 
 /**
@@ -72,7 +73,6 @@ public class Projet {
 			int duree = Integer.parseInt(lignes[placementTache + 2]);
 			toutesTaches.add(new Tache (nomTache, descriptionTache, new Duree(duree)));
 		}
-		System.out.println(toutesTaches.size());
 
 		/* mise en place des taches antécédentes */
 		for (int tacheActuelle = 1; tacheActuelle <= nbreTaches; tacheActuelle++) {
@@ -91,7 +91,6 @@ public class Projet {
 		finProjet = new Tache("Fin", "Fin de projet",new Duree(0));
 	}
 
-	
 	/**
 	 * Ordonne les calcules de toutes les dates/marges des taches du projet
 	 */
@@ -127,6 +126,37 @@ public class Projet {
 			
 		}
 
+	}
+
+	/**
+	 * Permet de trouver le chemin critique
+	 * @return Liste de taches composant le chemin critique
+	 */
+	public ArrayList<Tache> getCheminCritique() {
+
+		ArrayList<Tache> cheminCritique = new ArrayList<>();
+		ArrayList<Tache> predecesseurTrouves = new ArrayList<>();
+
+		ArrayList<Tache> trouverCritique = finProjet.getPredecesseurs();
+		while (trouverCritique.size() != 0) {
+
+			for (Tache aTraiter : trouverCritique) {
+				if (aTraiter.getMargeTotale().getHeures() == 0) {
+					if (!cheminCritique.contains(aTraiter)) {
+						cheminCritique.add(aTraiter);
+					}
+				}
+				for (Tache predecesseur : aTraiter.getPredecesseurs()) {
+					if (!predecesseurTrouves.contains(predecesseur)) {
+						predecesseurTrouves.addAll(aTraiter.getPredecesseurs());
+					}
+				}
+			}
+			trouverCritique.removeAll(trouverCritique);
+			trouverCritique.addAll(predecesseurTrouves);
+			predecesseurTrouves.removeAll(predecesseurTrouves);
+		}
+		return cheminCritique;
 	}
 
 	
@@ -185,11 +215,6 @@ public class Projet {
 		}
 		return tachesTrouve;
 	}
-
-
-	
-
-	
 	
 	@Override
 	public String toString() {

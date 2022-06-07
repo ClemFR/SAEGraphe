@@ -1,5 +1,7 @@
 package objets;
 
+import java.io.Serializable;
+
 /**
  * Evenement d'origine d'une taches un meme evenement peut -être associé
  * a plusieur taches.

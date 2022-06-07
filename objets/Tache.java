@@ -27,9 +27,6 @@ public class Tache {
 	private Evenement origine;
 	private double margeLibre;
 	private double margeTotale;
-
-	
-	
 	
 	/**
 	 * 
@@ -45,10 +42,6 @@ public class Tache {
 		margeLibre = Double.NaN;
 		margeTotale = Double.NaN;
 	}
-
-	
-	
-	
 	
 	
 	/**
@@ -75,52 +68,41 @@ public class Tache {
 		}
 
 	}
-	
-	
-	
-	
-	
-	
+
 	/**
 	 * Trouve les marges Libre des predecesseurs
 	 */
 	public void trouverMargeLibre() {
 		int total;
-		
+
 		for (Tache aComparer : predecesseurs) {
 			total = getDatePlusTot().getHeures() - aComparer.getDatePlusTot().getHeures()
 					- aComparer.dureeTache.getHeures();
 			if (Double.isNaN(aComparer.margeLibre) ||  total < margeLibre) 
 				aComparer.setMargeLibre(total);
-			
+
 		}
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	/**
 	 * Trouve les marges Totale des predecesseurs
 	 */
 	public void trouverMargeTotale() {
 		int total;
-		
+
 		for (Tache aComparer : predecesseurs) {
 			total = getDatePlusTard().getHeures()- aComparer.getDatePlusTot().getHeures()
 					- aComparer.dureeTache.getHeures();
 
 			if (Double.isNaN(aComparer.margeTotale) || total < aComparer.margeTotale) 
 				aComparer.setMargeTotale(total);
-			
 		}
 	}
 
-	
-	
-	
-	
-	
 
 	/**
 	 * Trouve les dates au plus tard des predecesseurs en fonction de la 
@@ -184,8 +166,8 @@ public class Tache {
 		StringBuilder message = new StringBuilder();
 
 		message.append(nom + " :\nDuree : " + dureeTache + "\n"
-				+ "Date au plus tot : " + getDatePlusTot() + "\n"
-				+ "Date au plus tard : " + getDatePlusTard() + "\n"
+				+ "Date au plus tot : " + (origine == null ? "date non calculée" :  getDatePlusTot())  + "\n"
+				+ "Date au plus tard : " + (origine == null ? "date non calculée" :  getDatePlusTard()) + "\n"
 				+ "Marge Libre : " + margeLibre + "\n"
 				+ "Marge Totale : " + margeTotale + "\n"
 				+ description + "\nTache Prealable :");

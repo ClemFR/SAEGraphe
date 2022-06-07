@@ -6,13 +6,14 @@ import objets.Tache;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
-import static gui.MenuRacine.selecteur;
+import static gui.MenuRacine.*;
 
 /**
  * Gère l'édition d'un projet chargé préalablement
- * @author Clement L. & Eleanor M. & Charlie S-B & Guillaume M.
+ * @author Clement L. & Eleanor M. & Charlie S-B. & Guillaume M. & Diego I.
  */
 public class MenuEditionProjet {
 
@@ -38,7 +39,7 @@ public class MenuEditionProjet {
             System.out.println("1 - Créer une tache");
             System.out.println("2 - Modifier une tache");
             System.out.println("3 - Voir les taches");
-            System.out.println("4 - Calculer les dates et les marges");
+            System.out.println("4 - Calculer les dates, les marges et le chemin critique");
             System.out.println("5 - Voir les caractéristiques du projet");
             System.out.println("6 - Sauvegarder");
             System.out.println("7 - Quitter");
@@ -47,22 +48,13 @@ public class MenuEditionProjet {
             switch(selection) {
                 case 1:
                     System.out.println(" --- Creation d'une tache ---");
-                    System.out.println("Entrez le nom de la tache : ");
-                    String nom = entree.nextLine();
-                    System.out.println("Entrez la description de la tache : ");
-                    String description = entree.nextLine();
-                    do {
-                        System.out.println("Entrez la durée de la tache (entier) "
-                                          + "en H : ");
-                        if (!entree.hasNextInt()) {
-                            entree.nextLine();
-                        }
-                    } while (!entree.hasNextInt());
+                    String nom = saisieTexte("Entrez le nom de la tache : ");
+                    String description = saisieTexte("Entrez la description de la tache : ");
+                    int duree = saisieEntier("Entrez la duree de la tache : ");
 
-                    int duree = entree.nextInt();
-                    new MenuEditionTache(projetActuel,
-                                         new Tache(nom, description, new Duree(duree)))
-                                            .afficher();
+                    Tache nvTache = new Tache(nom, description, new Duree(duree));
+                    projetActuel.addTache(nvTache);
+                    new MenuEditionTache(projetActuel, nvTache).afficher();                                         ;
                     projetModifie = true;
                     System.out.println("");
                     break;
@@ -71,20 +63,29 @@ public class MenuEditionProjet {
                     System.out.println(" --- Modification d'une tache ---");
                     int tacheSelectionnee;
                     ArrayList<Tache> taches = projetActuel.getToutesTaches();
-                    for (int i = 0; i < taches.size(); i++) {
-                        System.out.println((i + 1) + " - " + taches.get(i).getNom());
+                    if (taches.size() > 0) {
+                        for (int i = 0; i < taches.size(); i++) {
+                            System.out.println((i + 1) + " - " + taches.get(i).getNom());
+                        }
+                        System.out.print("Entrez le numero de la tache a modifier : ");
+                        tacheSelectionnee = selecteur(1, taches.size());
+                        new MenuEditionTache(projetActuel,
+                                taches.get(tacheSelectionnee - 1)).afficher();
+                        projetModifie = true;
+                    } else {
+                        System.out.println("Aucune tache n'est disponible");
                     }
-                    System.out.print("Entrez le numero de la tache a modifier : ");
-                    tacheSelectionnee = selecteur(1, taches.size());
-                    new MenuEditionTache(projetActuel,
-                                         taches.get(tacheSelectionnee - 1)).afficher();
-                    projetModifie = true;
                     System.out.println("");
                     break;
 
                 case 3:
                     System.out.println(" --- Affichage des taches ---");
+
                     System.out.println(projetActuel.afficherTaches());
+                    System.out.println("--------------");
+                    System.out.println("Le chemin critique est composé des taches "
+                                      + "suivantes :");
+                    afficherCheminCritique();
                     System.out.println("");
                     break;
 
@@ -104,17 +105,15 @@ public class MenuEditionProjet {
 
                 case 6:
                     System.out.println(" --- Sauvegarde du projet ---");
-                    System.out.print("Entrez le nom du fichier : ");
-                    String nomFichier = entree.nextLine();
+                    String nomFichier = saisieTexte("Entrez le nom du fichier : ");
                     try {
                         File sauvegarde = new File(MenuRacine.PATH_PROJETS
-                                                  + nomFichier + ".ser");
+                                                  + nomFichier + ".txt");
                         if (sauvegarde.exists()) {
                             String reponse;
                             do {
-                                System.out.print("Le fichier existe déjà, voulez-vous le "
-                                                + "remplacer ? (o/n) : ");
-                                reponse = entree.nextLine();
+                                reponse = saisieTexte("Le fichier existe déjà, "
+                                        + "voulez-vous le remplacer ? (o/n) : ");
                             } while (!(reponse.equals("o") || reponse.equals("n")));
 
                             if (reponse.equals("o")) {
@@ -141,10 +140,9 @@ public class MenuEditionProjet {
                     if (projetModifie) {
                         String reponse;
                         do {
-                            System.out.print("Des changements non sauvegardés ont été "
-                                     + "effectués, voulez-vous vraiment quitter ? "
-                                     + "(o/n) : ");
-                            reponse = entree.nextLine();
+                            reponse = saisieTexte("Des changements non sauvegardés ont "
+                                    + "été effectués, voulez-vous vraiment quitter ? "
+                                    + "(o/n) : ");
                         } while (!(reponse.equals("o") || reponse.equals("n")));
                         exit = reponse.equals("o");
 
@@ -157,11 +155,24 @@ public class MenuEditionProjet {
         }
     }
 
+    private void afficherCheminCritique() {
+        final String SEPARATEUR = " - ";
+        ArrayList<Tache> tachesCritiques = projetActuel.getCheminCritique();
+        String affichage = "";
+
+        if (tachesCritiques.size() == 0) {
+            affichage = "Aucun chemin critique n'a été trouvé";
+        } else {
+            for (Tache aAfficher : tachesCritiques) {
+                affichage += aAfficher.getNom() + SEPARATEUR;
+            }
+            //retrait dernier tiret
+            affichage = affichage.substring(0, affichage.length() - 2);
+        }
+        System.out.println(affichage);
+    }
+
     private void sauvegarder(File fichier) throws IOException {
-        FileOutputStream fos = new FileOutputStream(fichier.getAbsoluteFile());
-        ObjectOutputStream oos =  new ObjectOutputStream(fos) ;
-        oos.writeObject(projetActuel);
-        fos.close();
-        projetModifie = false;
+        projetActuel.sauvegarder(fichier);
     }
 }
